@@ -3,7 +3,8 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Heart, Share2, ArrowLeft, Play, Pause, Loader2 } from 'lucide-react';
+import { Heart, Share2, ArrowLeft, Loader2 } from 'lucide-react';
+import AudioPlayer from '@/components/AudioPlayer';
 
 export default function ArtworkDetailPage() {
   const params = useParams();
@@ -14,7 +15,9 @@ export default function ArtworkDetailPage() {
   const [currentLang, setCurrentLang] = useState('fr');
 
   useEffect(() => {
-    fetchArtwork();
+    if (params.id) {
+      fetchArtwork();
+    }
   }, [params.id]);
 
   const fetchArtwork = async () => {
@@ -54,7 +57,6 @@ export default function ArtworkDetailPage() {
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
-    // TODO: Sauvegarder dans la DB
   };
 
   if (loading) {
@@ -86,7 +88,6 @@ export default function ArtworkDetailPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Back Button */}
       <button
         onClick={() => router.back()}
         className="mb-6 text-amber-700 hover:text-amber-900 flex items-center gap-2 font-semibold transition-colors"
@@ -95,9 +96,7 @@ export default function ArtworkDetailPage() {
         Retour
       </button>
 
-      {/* Main Card */}
       <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-        {/* Image */}
         <div className="relative h-96 w-full">
           <Image
             src={artwork.imageUrl}
@@ -108,9 +107,7 @@ export default function ArtworkDetailPage() {
           />
         </div>
 
-        {/* Content */}
         <div className="p-8">
-          {/* Title and Actions */}
           <div className="flex items-start justify-between mb-6">
             <div>
               <h1 className="text-4xl font-bold text-gray-900 mb-2">
@@ -139,7 +136,6 @@ export default function ArtworkDetailPage() {
             </div>
           </div>
 
-          {/* Metadata Grid */}
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div className="bg-amber-50 p-4 rounded-xl">
               <p className="text-sm text-gray-600 mb-1">Période</p>
@@ -159,7 +155,6 @@ export default function ArtworkDetailPage() {
             </div>
           </div>
 
-          {/* Description */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
               À propos de cette œuvre
@@ -169,18 +164,12 @@ export default function ArtworkDetailPage() {
             </p>
           </div>
 
-          {/* Audio Player Placeholder */}
-          <div className="bg-gradient-to-r from-amber-600 to-orange-700 text-white p-6 rounded-xl">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-semibold text-lg">Description audio</p>
-                <p className="text-amber-100 text-sm">{artwork.title[currentLang]}</p>
-              </div>
-              <button className="p-4 bg-white text-amber-700 rounded-full hover:bg-gray-100 transition-all">
-                <Play className="w-8 h-8" />
-              </button>
-            </div>
-          </div>
+          {artwork.audioUrl && artwork.audioUrl[currentLang] && (
+            <AudioPlayer
+              audioUrl={artwork.audioUrl[currentLang]}
+              title={artwork.title[currentLang]}
+            />
+          )}
         </div>
       </div>
     </div>

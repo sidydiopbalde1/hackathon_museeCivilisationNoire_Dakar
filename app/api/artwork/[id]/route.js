@@ -2,10 +2,12 @@ import connectDB from '@/lib/mongodb';
 import Artwork from '@/models/Artwork';
 import { NextResponse } from 'next/server';
 
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
     await connectDB();
 
+    // Await params avant de l'utiliser (Next.js 15+)
+    const params = await context.params;
     const artwork = await Artwork.findOne({ id: params.id });
 
     if (!artwork) {
@@ -21,14 +23,16 @@ export async function GET(request, { params }) {
 
     return NextResponse.json(artwork);
   } catch (error) {
+    console.error('API Error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
     await connectDB();
 
+    const params = await context.params;
     const body = await request.json();
     const artwork = await Artwork.findOneAndUpdate(
       { id: params.id },
@@ -45,6 +49,28 @@ export async function PUT(request, { params }) {
 
     return NextResponse.json(artwork);
   } catch (error) {
+    console.error('API Error:', error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(request, context) {
+  try {
+    await connectDB();
+
+    const params = await context.params;
+    const artwork = await Artwork.findOneAndDelete({ id: params.id });
+
+    if (!artwork) {
+      return NextResponse.json(
+        { error: 'Œuvre non trouvée' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ message: 'Œuvre supprimée avec succès' });
+  } catch (error) {
+    console.error('API Error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
