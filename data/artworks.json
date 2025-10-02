@@ -1,0 +1,98 @@
+[
+    {
+      "id": "MCN001",
+      "title": {
+        "fr": "Masque Dogon",
+        "en": "Dogon Mask",
+        "wo": "Mask Dogon"
+      },
+      "description": {
+        "fr": "Ce masque Dogon du Mali représente un Kanaga, symbole de la création de l'univers. Les Dogons utilisent ces masques lors de cérémonies funéraires appelées 'Dama'. Le motif en croix symbolise l'oiseau mythique Komondo Tebu et représente l'équilibre entre le ciel et la terre.",
+        "en": "This Dogon mask from Mali represents a Kanaga, symbol of the creation of the universe. The Dogons use these masks during funeral ceremonies called 'Dama'. The cross pattern symbolizes the mythical bird Komondo Tebu and represents the balance between sky and earth.",
+        "wo": "Mask Dogon bii jóge ci Mali dafa mel ni Kanaga, simbol bu création yu univers. Dogon yi dañuy jëfandikoo mask yii ci cérémonie yu ñuy def ngir ñi dee, itam 'Dama'."
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800",
+      "audioUrl": {
+        "fr": "/audio/mcn001-fr.mp3",
+        "en": "/audio/mcn001-en.mp3",
+        "wo": "/audio/mcn001-wo.mp3"
+      },
+      "period": "XVe - XVIIIe siècle",
+      "origin": "Mali",
+      "material": "Bois, fibres végétales",
+      "dimensions": "65 x 35 x 15 cm",
+      "qrCode": "MCN001"
+    },
+    {
+      "id": "MCN002",
+      "title": {
+        "fr": "Statue Nok",
+        "en": "Nok Statue",
+        "wo": "Statue Nok"
+      },
+      "description": {
+        "fr": "Cette terre cuite de la culture Nok (Nigeria) date de 500 av. J.-C. à 200 apr. J.-C. Les Nok sont considérés comme l'une des premières civilisations à avoir maîtrisé la métallurgie du fer en Afrique subsaharienne.",
+        "en": "This terracotta from the Nok culture (Nigeria) dates from 500 BC to 200 AD. The Nok are considered one of the first civilizations to have mastered iron metallurgy in sub-Saharan Africa.",
+        "wo": "Terre cuite bii jóge ci culture Nok (Nigeria) dafa am 500 av. J.-C. ba 200 apr. J.-C. Nok yi itam nañu ko ni ñenn ci civilization yi."
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=800",
+      "audioUrl": {
+        "fr": "/audio/mcn002-fr.mp3",
+        "en": "/audio/mcn002-en.mp3",
+        "wo": "/audio/mcn002-wo.mp3"
+      },
+      "period": "500 av. J.-C. - 200 apr. J.-C.",
+      "origin": "Nigeria",
+      "material": "Terre cuite",
+      "dimensions": "38 x 20 x 18 cm",
+      "qrCode": "MCN002"
+    },
+    {
+      "id": "MCN003",
+      "title": {
+        "fr": "Couronne Royale Bamiléké",
+        "en": "Bamileke Royal Crown",
+        "wo": "Couronne Royal Bamiléké"
+      },
+      "description": {
+        "fr": "Couronne perlée appartenant à un chef Bamiléké du Cameroun. Les perles, importées depuis le XIXe siècle, sont devenues un symbole de richesse et de pouvoir.",
+        "en": "Beaded crown belonging to a Bamileke chief from Cameroon. The beads, imported since the 19th century, have become a symbol of wealth and power.",
+        "wo": "Couronne bu am perle bi jóge ci chef Bamiléké ci Cameroun. Perle yi, ñu koy indil dale ci XIXe siècle."
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1566305977571-5666677c6e98?w=800",
+      "audioUrl": {
+        "fr": "/audio/mcn003-fr.mp3",
+        "en": "/audio/mcn003-en.mp3",
+        "wo": "/audio/mcn003-wo.mp3"
+      },
+      "period": "XIXe - XXe siècle",
+      "origin": "Cameroun",
+      "material": "Perles, tissu, cuir",
+      "dimensions": "45 x 40 cm",
+      "qrCode": "MCN003"
+    },
+    {
+      "id": "MCN004",
+      "title": {
+        "fr": "Textile Kente",
+        "en": "Kente Cloth",
+        "wo": "Sepp Kente"
+      },
+      "description": {
+        "fr": "Le Kente est un textile traditionnel Akan du Ghana, tissé à la main depuis le XVIIe siècle. Traditionnellement réservé à la royauté, le Kente est aujourd'hui un symbole de fierté culturelle panafricaine.",
+        "en": "Kente is a traditional Akan textile from Ghana, hand-woven since the 17th century. Traditionally reserved for royalty, Kente is today a symbol of Pan-African cultural pride.",
+        "wo": "Kente dafa am textile traditionnel Akan bu Ghana, bu ñuy ràcc ak loxo dale ci XVIIe siècle."
+      },
+      "imageUrl": "https://images.unsplash.com/photo-1609608838742-3678b8a44968?w=800",
+      "audioUrl": {
+        "fr": "/audio/mcn004-fr.mp3",
+        "en": "/audio/mcn004-en.mp3",
+        "wo": "/audio/mcn004-wo.mp3"
+      },
+      "period": "XVIIe siècle - Contemporain",
+      "origin": "Ghana",
+      "material": "Coton, soie",
+      "dimensions": "180 x 120 cm",
+      "qrCode": "MCN004"
+    }
+  ]
