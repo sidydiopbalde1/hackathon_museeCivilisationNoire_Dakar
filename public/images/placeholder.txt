@@ -1,0 +1,7 @@
+Pour utiliser votre image du musée :
+
+1. Copiez votre image dans ce dossier public/images/
+2. Renommez-la "museum-hero.jpg"
+3. Modifiez le chemin dans HeroCarousel.jsx vers "/images/museum-hero.jpg"
+
+En attendant, le carrousel utilise des images Unsplash temporaires.

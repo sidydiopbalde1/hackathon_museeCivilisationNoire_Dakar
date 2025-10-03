@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50">
           <Header />
-          <main className="pb-24">
+          <main className="pb-24 md:pb-0">
             {children}
           </main>
           <BottomNav />

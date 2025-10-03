@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { Camera, Grid3x3, Home } from 'lucide-react';
 
 export default function Header() {
   const [currentLang, setCurrentLang] = useState('fr');
@@ -27,6 +28,22 @@ export default function Header() {
               <p className="text-xs text-amber-200">Digital Experience</p>
             </div>
           </Link>
+
+          {/* Navigation Desktop - Visible uniquement sur desktop */}
+          <nav className="hidden md:flex items-center gap-6">
+            <Link href="/" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
+              <Home className="w-5 h-5" />
+              <span className="font-medium">Accueil</span>
+            </Link>
+            <Link href="/collection" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
+              <Grid3x3 className="w-5 h-5" />
+              <span className="font-medium">Collection</span>
+            </Link>
+            <Link href="/scan" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
+              <Camera className="w-5 h-5" />
+              <span className="font-medium">Scanner</span>
+            </Link>
+          </nav>
 
           <div className="flex gap-2">
             {languages.map((lang) => (

@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Camera, Grid3x3, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import ArtworkCard from '@/components/ArtworkCard';
+import HeroCarousel from '@/components/HeroCarousel';
 
 export default function HomePage() {
   const [artworks, setArtworks] = useState([]);
@@ -62,38 +63,9 @@ export default function HomePage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Hero Section */}
-      <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold text-amber-900 mb-4">
-          Bienvenue au MCN
-        </h1>
-        <p className="text-xl text-gray-700">
-          Explorez le patrimoine africain à travers le digital
-        </p>
-      </div>
+      {/* Hero Carousel */}
+      <HeroCarousel />
 
-      {/* Action Cards */}
-      <div className="grid md:grid-cols-2 gap-6 mb-16">
-        <Link href="/scan">
-          <div className="bg-gradient-to-br from-amber-600 to-orange-700 text-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 cursor-pointer">
-            <Camera className="w-16 h-16 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-2">Scanner une œuvre</h2>
-            <p className="text-amber-100">
-              Scannez le QR code près d'une œuvre pour découvrir son histoire
-            </p>
-          </div>
-        </Link>
-
-        <Link href="/collection">
-          <div className="bg-gradient-to-br from-red-600 to-pink-700 text-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 cursor-pointer">
-            <Grid3x3 className="w-16 h-16 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-2">Parcourir la collection</h2>
-            <p className="text-pink-100">
-              Explorez toutes les œuvres du musée depuis chez vous
-            </p>
-          </div>
-        </Link>
-      </div>
 
       {/* Featured Artworks */}
       <section>
