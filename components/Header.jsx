@@ -3,15 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Camera, Grid3x3, Home } from 'lucide-react';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 export default function Header() {
-  const [currentLang, setCurrentLang] = useState('fr');
-
-  const languages = [
-    { code: 'fr', name: 'Français' },
-    { code: 'en', name: 'English' },
-    { code: 'wo', name: 'Wolof' },
-  ];
+  const { currentLang, changeLanguage, tSync, languages } = useTranslation();
 
   return (
     <header className="bg-gradient-to-r from-amber-900 via-orange-800 to-red-900 text-white shadow-lg sticky top-0 z-50">
@@ -23,9 +18,9 @@ export default function Header() {
             </div>
             <div>
               <h1 className="text-xl font-bold">
-                Musée des Civilisations Noires
+                {tSync('Musée des Civilisations Noires')}
               </h1>
-              <p className="text-xs text-amber-200">Digital Experience</p>
+              <p className="text-xs text-amber-200">{tSync('Digital Experience')}</p>
             </div>
           </Link>
 
@@ -33,15 +28,15 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
               <Home className="w-5 h-5" />
-              <span className="font-medium">Accueil</span>
+              <span className="font-medium">{tSync('Accueil')}</span>
             </Link>
             <Link href="/collection" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
               <Grid3x3 className="w-5 h-5" />
-              <span className="font-medium">Collection</span>
+              <span className="font-medium">{tSync('Collection')}</span>
             </Link>
             <Link href="/scan" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
               <Camera className="w-5 h-5" />
-              <span className="font-medium">Scanner</span>
+              <span className="font-medium">{tSync('Scanner')}</span>
             </Link>
           </nav>
 
@@ -49,7 +44,7 @@ export default function Header() {
             {languages.map((lang) => (
               <button
                 key={lang.code}
-                onClick={() => setCurrentLang(lang.code)}
+                onClick={() => changeLanguage(lang.code)}
                 className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
                   currentLang === lang.code
                     ? 'bg-white text-amber-900'
@@ -57,7 +52,7 @@ export default function Header() {
                 }`}
                 title={lang.name}
               >
-                {lang.code.toUpperCase()}
+                {lang.flag} {lang.code.toUpperCase()}
               </button>
             ))}
           </div>

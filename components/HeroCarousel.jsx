@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 export default function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { tSync } = useTranslation();
 
   const slides = [
     {
@@ -72,10 +74,10 @@ export default function HeroCarousel() {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-white px-4 max-w-4xl">
                 <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
-                  {slide.title}
+                  {tSync(slide.title)}
                 </h1>
                 <p className="text-lg md:text-xl lg:text-2xl text-gray-200 max-w-2xl mx-auto">
-                  {slide.subtitle}
+                  {tSync(slide.subtitle)}
                 </p>
               </div>
             </div>

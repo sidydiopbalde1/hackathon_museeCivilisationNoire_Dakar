@@ -5,11 +5,14 @@ import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import ArtworkCard from '@/components/ArtworkCard';
 import HeroCarousel from '@/components/HeroCarousel';
+import HomePageSkeleton from '@/components/skeletons/HomePageSkeleton';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 export default function HomePage() {
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { tSync } = useTranslation();
 
   useEffect(() => {
     fetchArtworks();
@@ -35,14 +38,7 @@ export default function HomePage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-amber-600 mx-auto mb-4" />
-          <p className="text-gray-600">Chargement des œuvres...</p>
-        </div>
-      </div>
-    );
+    return <HomePageSkeleton />;
   }
 
   if (error) {
@@ -54,7 +50,7 @@ export default function HomePage() {
             onClick={fetchArtworks}
             className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-all"
           >
-            Réessayer
+            {tSync('Réessayer')}
           </button>
         </div>
       </div>
@@ -71,13 +67,13 @@ export default function HomePage() {
       <section>
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-3xl font-bold text-amber-900">
-            Œuvres en vedette
+            {tSync('Œuvres en vedette')}
           </h2>
           <Link 
             href="/collection"
             className="text-amber-700 hover:text-amber-900 font-semibold"
           >
-            Voir tout →
+            {tSync('Voir tout')} →
           </Link>
         </div>
         
@@ -89,7 +85,7 @@ export default function HomePage() {
           </div>
         ) : (
           <p className="text-center text-gray-500 py-8">
-            Aucune œuvre disponible pour le moment
+            {tSync('Aucune œuvre disponible pour le moment')}
           </p>
         )}
       </section>
@@ -97,18 +93,13 @@ export default function HomePage() {
       {/* About Section */}
       <section className="mt-16 bg-white rounded-2xl p-8 shadow-lg">
         <h2 className="text-3xl font-bold text-amber-900 mb-4">
-          À propos du Musée
+          {tSync('À propos du Musée')}
         </h2>
         <p className="text-gray-700 text-lg leading-relaxed mb-4">
-          Le Musée des Civilisations Noires est l'un des plus grands espaces 
-          culturels du Sénégal et d'Afrique. Il abrite une richesse patrimoniale 
-          inestimable dédiée à la préservation et à la valorisation des civilisations 
-          africaines.
+          {tSync('Le Musée des Civilisations Noires est l\'un des plus grands espaces culturels du Sénégal et d\'Afrique. Il abrite une richesse patrimoniale inestimable dédiée à la préservation et à la valorisation des civilisations africaines.')}
         </p>
         <p className="text-gray-700 text-lg leading-relaxed">
-          Grâce à cette plateforme digitale, nous rendons accessible notre 
-          collection au monde entier, offrant une expérience enrichie et interactive 
-          autour de nos œuvres exceptionnelles.
+          {tSync('Grâce à cette plateforme digitale, nous rendons accessible notre collection au monde entier, offrant une expérience enrichie et interactive autour de nos œuvres exceptionnelles.')}
         </p>
       </section>
     </div>
