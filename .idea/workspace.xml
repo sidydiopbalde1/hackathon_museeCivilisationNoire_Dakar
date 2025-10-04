@@ -6,10 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="93ec04f6-8823-42e4-bd27-64d05f249979" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/artwork/[id]/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/artwork/[id]/page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/translationService.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/translationService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/artwork/[id]/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/artwork/[id]/route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Artwork3DViewer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Artwork3DViewer.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +124,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1759516639727</updated>
-      <workItem from="1759516645661" duration="9988000" />
+      <workItem from="1759516645661" duration="11991000" />
     </task>
     <servers />
   </component>

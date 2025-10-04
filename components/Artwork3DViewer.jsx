@@ -3,18 +3,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from '@/contexts/TranslationContext';
 
-// Simulateur 3D CSS (sans Three.js)
 function CSS3DViewer({ artwork }) {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isAnimating, setIsAnimating] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const animationRef = useRef();
 
   useEffect(() => {
-    if (isAnimating) {
+    if (isAnimating && !isHovered) {
       const animate = () => {
         setRotation(prev => ({
-          x: prev.x + 0.5,
-          y: prev.y + 0.3
+          x: prev.x + 0.3,
+          y: prev.y + 0.5
         }));
         animationRef.current = requestAnimationFrame(animate);
       };
@@ -26,104 +26,95 @@ function CSS3DViewer({ artwork }) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isAnimating]);
-
-  const handleMouseEnter = () => setIsAnimating(false);
-  const handleMouseLeave = () => setIsAnimating(true);
+  }, [isAnimating, isHovered]);
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center perspective-1000">
-      {/* Environnement de musée */}
+    <div 
+      className="relative w-full h-full flex items-center justify-center" 
+      style={{ perspective: '1000px' }}
+      onMouseEnter={() => { setIsHovered(true); setIsAnimating(false); }}
+      onMouseLeave={() => { setIsHovered(false); setIsAnimating(true); }}
+    >
+      {/* Fond musée */}
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-50 to-orange-100"></div>
+      
+      {/* Cadre 3D avec image */}
       <div 
-        className="relative w-64 h-64 preserve-3d cursor-pointer transition-transform duration-300 hover:scale-110"
+        className="relative transition-all duration-500"
         style={{
-          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`
+          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) ${isHovered ? 'scale(1.1)' : 'scale(1)'}`,
+          transformStyle: 'preserve-3d',
         }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
       >
-        {/* Cube représentant l'œuvre */}
-        <div className="absolute inset-0 preserve-3d">
-          {/* Face avant */}
-          <div 
-            className="absolute w-full h-full bg-gradient-to-br from-amber-500 to-orange-600 shadow-xl flex items-center justify-center text-white font-bold text-lg"
-            style={{ transform: 'translateZ(128px)' }}
-          >
-            🎨 {artwork?.title?.fr?.substring(0, 15) || 'Œuvre'}...
-          </div>
-          
-          {/* Face arrière */}
-          <div 
-            className="absolute w-full h-full bg-gradient-to-br from-red-500 to-pink-600 shadow-xl flex items-center justify-center text-white font-bold"
-            style={{ transform: 'translateZ(-128px) rotateY(180deg)' }}
-          >
-            📍 {artwork?.origin || 'Origine'}
-          </div>
-          
-          {/* Face droite */}
-          <div 
-            className="absolute w-full h-full bg-gradient-to-br from-blue-500 to-indigo-600 shadow-xl flex items-center justify-center text-white font-bold"
-            style={{ transform: 'rotateY(90deg) translateZ(128px)' }}
-          >
-            📅 {artwork?.period || 'Période'}
-          </div>
-          
-          {/* Face gauche */}
-          <div 
-            className="absolute w-full h-full bg-gradient-to-br from-green-500 to-emerald-600 shadow-xl flex items-center justify-center text-white font-bold"
-            style={{ transform: 'rotateY(-90deg) translateZ(128px)' }}
-          >
-            🔨 {artwork?.material || 'Matériau'}
-          </div>
-          
-          {/* Face haut */}
-          <div 
-            className="absolute w-full h-full bg-gradient-to-br from-purple-500 to-violet-600 shadow-xl flex items-center justify-center text-white font-bold"
-            style={{ transform: 'rotateX(90deg) translateZ(128px)' }}
-          >
-            📏 {artwork?.dimensions || 'Dimensions'}
-          </div>
-          
-          {/* Face bas */}
-          <div 
-            className="absolute w-full h-full bg-gradient-to-br from-gray-500 to-slate-600 shadow-xl flex items-center justify-center text-white font-bold"
-            style={{ transform: 'rotateX(-90deg) translateZ(128px)' }}
-          >
-            🏛️ MCN
+        {/* Cadre doré extérieur */}
+        <div className="relative w-80 h-60 bg-gradient-to-br from-yellow-500 via-yellow-600 to-yellow-700 p-2 shadow-2xl">
+          {/* Cadre intérieur */}
+          <div className="w-full h-full bg-gradient-to-br from-amber-800 to-amber-900 p-1">
+            {/* Image */}
+            <div className="w-full h-full relative overflow-hidden">
+              <img 
+                src={artwork?.imageUrl} 
+                alt={artwork?.title?.fr || 'Œuvre'}
+                crossOrigin="anonymous"
+                className="w-full h-full object-cover"
+                style={{ 
+                  display: 'block',
+                  width: '100%',
+                  height: '100%'
+                }}
+              />
+              
+              {/* Plaque info */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-3">
+                <h3 className="text-white font-bold text-sm">
+                  {artwork?.title?.fr}
+                </h3>
+                <p className="text-amber-200 text-xs">
+                  {artwork?.origin} • {artwork?.period}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Éclairage */}
+        <div 
+          className="absolute -top-20 -left-20 w-40 h-40 bg-gradient-radial from-yellow-200/30 to-transparent rounded-full blur-xl pointer-events-none"
+          style={{ transform: 'translateZ(50px)' }}
+        />
       </div>
+
+      {/* Sol */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-300/20 to-transparent pointer-events-none" />
     </div>
   );
 }
 
-// Composant principal du viewer 3D
 export default function Artwork3DViewer({ artwork }) {
   const { tSync } = useTranslation();
 
-  if (!artwork) {
+  if (!artwork || !artwork.imageUrl) {
     return (
-      <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
-        <p className="text-gray-500">{tSync('Chargement de la vue 3D...')}</p>
+      <div className="w-full h-96 bg-gray-200 flex items-center justify-center">
+        <p className="text-gray-500">{tSync('Image non disponible')}</p>
       </div>
     );
   }
 
   return (
-    <div className="relative w-full h-96 rounded-lg overflow-hidden shadow-xl bg-gradient-to-b from-amber-100 to-orange-100">
-      {/* CSS 3D Viewer */}
+    <div className="relative w-full h-96 overflow-hidden bg-gradient-to-b from-amber-100 to-orange-100">
       <CSS3DViewer artwork={artwork} />
 
       {/* Instructions */}
       <div className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-2 rounded-lg text-sm">
-        <p>{tSync('🖱️ Survolez pour interagir')}</p>
-        <p>{tSync('🎮 Rotation automatique')}</p>
+        <p>🖱️ {tSync('Survolez pour interagir')}</p>
+        <p>🎮 {tSync('Rotation automatique')}</p>
       </div>
 
-      {/* Info sur l'œuvre */}
-      <div className="absolute top-4 right-4 bg-white/90 text-gray-800 px-3 py-2 rounded-lg text-sm max-w-xs">
-        <h3 className="font-bold">{artwork.title?.fr || 'Œuvre'}</h3>
-        <p className="text-xs text-gray-600">{artwork.origin || 'Origine inconnue'}</p>
+      {/* Info */}
+      <div className="absolute top-4 right-4 bg-white/90 px-3 py-2 rounded-lg text-sm max-w-xs">
+        <h3 className="font-bold text-gray-800">{artwork.title?.fr}</h3>
+        <p className="text-xs text-gray-600">{artwork.origin}</p>
       </div>
     </div>
   );

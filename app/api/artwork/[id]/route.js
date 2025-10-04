@@ -1,27 +1,41 @@
 import connectDB from '@/lib/mongodb';
 import Artwork from '@/models/Artwork';
 import { NextResponse } from 'next/server';
+import artworksData from '@/data/artworks.json';
 
 export async function GET(request, context) {
   try {
-    await connectDB();
-
     // Await params avant de l'utiliser (Next.js 15+)
     const params = await context.params;
-    const artwork = await Artwork.findOne({ id: params.id });
+    
+    // D'abord essayer de récupérer depuis la base de données
+    try {
+      await connectDB();
+      const artwork = await Artwork.findOne({ id: params.id });
+      
+      if (artwork) {
+        // Incrémenter le compteur de vues
+        artwork.viewCount += 1;
+        await artwork.save();
+        return NextResponse.json(artwork);
+      }
+    } catch (dbError) {
+      console.log('Erreur DB, utilisation des données statiques:', dbError.message);
+    }
 
-    if (!artwork) {
+    // Fallback: utiliser les données statiques du fichier JSON
+    const staticArtwork = artworksData.find(artwork => artwork.id === params.id);
+    
+    if (!staticArtwork) {
       return NextResponse.json(
         { error: 'Œuvre non trouvée' },
         { status: 404 }
       );
     }
 
-    // Incrémenter le compteur de vues
-    artwork.viewCount += 1;
-    await artwork.save();
-
-    return NextResponse.json(artwork);
+    console.log('Artwork trouvée dans les données statiques:', staticArtwork);
+    return NextResponse.json(staticArtwork);
+    
   } catch (error) {
     console.error('API Error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });

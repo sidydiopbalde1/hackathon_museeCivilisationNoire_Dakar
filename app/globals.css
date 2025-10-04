@@ -55,6 +55,11 @@ body {
   transform-style: preserve-3d;
 }
 
+/* Gradient radial pour l'éclairage */
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
 /* Print Styles */
 @media print {
   header, nav, button {
