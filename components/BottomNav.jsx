@@ -3,9 +3,11 @@
 import { Home, Grid3x3, Camera } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 export default function BottomNav() {
   const pathname = usePathname();
+  const { tSync } = useTranslation();
 
   const navItems = [
     { href: '/', icon: Home, label: 'Accueil' },
@@ -29,7 +31,7 @@ export default function BottomNav() {
                   className="flex flex-col items-center gap-1 px-6 py-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white rounded-xl transform -translate-y-2 shadow-lg hover:shadow-xl transition-all"
                 >
                   <Icon className="w-7 h-7" />
-                  <span className="text-xs font-bold">{item.label}</span>
+                  <span className="text-xs font-bold">{tSync(item.label)}</span>
                 </Link>
               );
             }
@@ -45,7 +47,7 @@ export default function BottomNav() {
                 }`}
               >
                 <Icon className="w-6 h-6" />
-                <span className="text-xs font-semibold">{item.label}</span>
+                <span className="text-xs font-semibold">{tSync(item.label)}</span>
               </Link>
             );
           })}
