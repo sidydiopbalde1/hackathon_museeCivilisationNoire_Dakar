@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { Heart, Share2, ArrowLeft, Loader2 } from 'lucide-react';
+import { Heart, Share2, ArrowLeft, Loader2, X } from 'lucide-react';
 import AudioPlayer from '@/components/AudioPlayer';
 import { useTranslation } from '@/contexts/TranslationContext';
 
@@ -36,6 +36,7 @@ export default function ArtworkDetailPage() {
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
   const [view3D, setView3D] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   useEffect(() => {
     if (params.id) {
@@ -61,21 +62,39 @@ export default function ArtworkDetailPage() {
     }
   };
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: artwork.title[currentLang],
-          text: `${tSync('Découvrez')} ${artwork.title[currentLang]} ${tSync('au Musée des Civilisations Noires')}`,
-          url: window.location.href,
-        });
-      } catch (err) {
-        console.log(tSync('Partage annulé'));
-      }
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert(tSync('Lien copié dans le presse-papier !'));
+  const handleShare = () => {
+    setShowShareModal(true);
+  };
+
+  const shareOnSocialMedia = (platform) => {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(artwork.title[currentLang]);
+    const text = encodeURIComponent(`${tSync('Découvrez')} ${artwork.title[currentLang]} ${tSync('au Musée des Civilisations Noires')}`);
+    
+    let shareUrl = '';
+    
+    switch (platform) {
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+        break;
+      case 'whatsapp':
+        shareUrl = `https://wa.me/?text=${text}%20${url}`;
+        break;
+      case 'instagram':
+        // Instagram ne permet pas le partage direct via URL, on copie le lien
+        navigator.clipboard.writeText(window.location.href);
+        alert(tSync('Lien copié dans le presse-papier !'));
+        setShowShareModal(false);
+        return;
+      default:
+        return;
     }
+    
+    window.open(shareUrl, '_blank', 'width=600,height=400');
+    setShowShareModal(false);
   };
 
   const toggleFavorite = () => {
@@ -230,6 +249,84 @@ export default function ArtworkDetailPage() {
           />
         </div>
       </div>
+
+      {/* Modale de partage */}
+      {showShareModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-gray-900">{tSync('Partager cette œuvre')}</h3>
+              <button
+                onClick={() => setShowShareModal(false)}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={() => shareOnSocialMedia('facebook')}
+                className="flex items-center gap-3 p-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+              >
+                <div className="w-6 h-6 flex items-center justify-center">
+                  <span className="text-lg font-bold">f</span>
+                </div>
+                <span className="font-medium">Facebook</span>
+              </button>
+              
+              <button
+                onClick={() => shareOnSocialMedia('twitter')}
+                className="flex items-center gap-3 p-4 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors"
+              >
+                <div className="w-6 h-6 flex items-center justify-center">
+                  <span className="text-lg font-bold">𝕏</span>
+                </div>
+                <span className="font-medium">X (Twitter)</span>
+              </button>
+              
+              <button
+                onClick={() => shareOnSocialMedia('whatsapp')}
+                className="flex items-center gap-3 p-4 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors"
+              >
+                <div className="w-6 h-6 flex items-center justify-center">
+                  <span className="text-lg">📱</span>
+                </div>
+                <span className="font-medium">WhatsApp</span>
+              </button>
+              
+              <button
+                onClick={() => shareOnSocialMedia('instagram')}
+                className="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:from-purple-600 hover:to-pink-600 transition-colors"
+              >
+                <div className="w-6 h-6 flex items-center justify-center">
+                  <span className="text-lg">📷</span>
+                </div>
+                <span className="font-medium">Instagram</span>
+              </button>
+            </div>
+            
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="mb-3">
+                <p className="text-sm text-gray-600 mb-2">{tSync('Lien de la page')} :</p>
+                <div className="p-3 bg-gray-50 rounded-lg border">
+                  <p className="text-sm text-gray-800 break-all">{typeof window !== 'undefined' ? window.location.href : ''}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                  alert(tSync('Lien copié dans le presse-papier !'));
+                  setShowShareModal(false);
+                }}
+                className="w-full p-3 bg-gray-100 text-gray-800 rounded-xl hover:bg-gray-200 transition-colors font-medium"
+              >
+                {tSync('Copier le lien')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
