@@ -8,14 +8,17 @@
     "start": "next start",
     "lint": "eslint",
     "db:seed": "node script/seedDatabase.js",
-    "events:seed": "node script/seedEvents.js"
+    "events:seed": "node script/seedEvents.js",
+    "admin:seed": "node script/seedAdmin.js"
   },
   "dependencies": {
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
+    "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.3",
     "firebase": "^12.3.0",
     "html5-qrcode": "^2.3.8",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.544.0",
     "mongodb": "^6.20.0",
     "mongoose": "^8.18.3",
