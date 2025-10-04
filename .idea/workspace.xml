@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="93ec04f6-8823-42e4-bd27-64d05f249979" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/artwork/[id]/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/artwork/[id]/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/artwork/[id]/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/artwork/[id]/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Artwork3DViewer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Artwork3DViewer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AudioPlayer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/AudioPlayer.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +125,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1759516639727</updated>
-      <workItem from="1759516645661" duration="11991000" />
+      <workItem from="1759516645661" duration="15354000" />
     </task>
     <servers />
   </component>

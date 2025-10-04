@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from '@/contexts/TranslationContext';
+import ImagePreviewModal from './ImagePreviewModal';
 
-function CSS3DViewer({ artwork }) {
+function CSS3DViewer({ artwork, onImageClick }) {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isAnimating, setIsAnimating] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
@@ -56,12 +57,14 @@ function CSS3DViewer({ artwork }) {
                 src={artwork?.imageUrl} 
                 alt={artwork?.title?.fr || 'Œuvre'}
                 crossOrigin="anonymous"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer hover:brightness-110 transition-all"
                 style={{ 
                   display: 'block',
                   width: '100%',
                   height: '100%'
                 }}
+                onClick={onImageClick}
+                title="Cliquez pour agrandir"
               />
               
               {/* Plaque info */}
@@ -92,6 +95,7 @@ function CSS3DViewer({ artwork }) {
 
 export default function Artwork3DViewer({ artwork }) {
   const { tSync } = useTranslation();
+  const [showPreview, setShowPreview] = useState(false);
 
   if (!artwork || !artwork.imageUrl) {
     return (
@@ -102,8 +106,12 @@ export default function Artwork3DViewer({ artwork }) {
   }
 
   return (
-    <div className="relative w-full h-96 overflow-hidden bg-gradient-to-b from-amber-100 to-orange-100">
-      <CSS3DViewer artwork={artwork} />
+    <>
+      <div className="relative w-full h-96 overflow-hidden bg-gradient-to-b from-amber-100 to-orange-100">
+        <CSS3DViewer 
+          artwork={artwork} 
+          onImageClick={() => setShowPreview(true)}
+        />
 
       {/* Instructions */}
       <div className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-2 rounded-lg text-sm">
@@ -115,7 +123,15 @@ export default function Artwork3DViewer({ artwork }) {
       <div className="absolute top-4 right-4 bg-white/90 px-3 py-2 rounded-lg text-sm max-w-xs">
         <h3 className="font-bold text-gray-800">{artwork.title?.fr}</h3>
         <p className="text-xs text-gray-600">{artwork.origin}</p>
+        </div>
       </div>
-    </div>
+
+      {/* Modal de prévisualisation */}
+      <ImagePreviewModal
+        isOpen={showPreview}
+        onClose={() => setShowPreview(false)}
+        artwork={artwork}
+      />
+    </>
   );
 }

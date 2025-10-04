@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import ArtworkCard from '@/components/ArtworkCard';
 import HeroCarousel from '@/components/HeroCarousel';
+import HomePageSkeleton from '@/components/skeletons/HomePageSkeleton';
 import { useTranslation } from '@/contexts/TranslationContext';
 
 export default function HomePage() {
@@ -37,14 +38,7 @@ export default function HomePage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-amber-600 mx-auto mb-4" />
-          <p className="text-gray-600">{tSync('Chargement des œuvres...')}</p>
-        </div>
-      </div>
-    );
+    return <HomePageSkeleton />;
   }
 
   if (error) {

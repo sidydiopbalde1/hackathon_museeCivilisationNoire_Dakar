@@ -8,7 +8,7 @@ import { Heart, Share2, ArrowLeft, Loader2 } from 'lucide-react';
 import AudioPlayer from '@/components/AudioPlayer';
 import { useTranslation } from '@/contexts/TranslationContext';
 
-// Import dynamique du composant 3D pour éviter les erreurs SSR
+// Import dynamique des composants pour éviter les erreurs SSR
 const Artwork3DViewer = dynamic(() => import('@/components/Artwork3DViewer'), {
   ssr: false,
   loading: () => (
@@ -20,6 +20,7 @@ const Artwork3DViewer = dynamic(() => import('@/components/Artwork3DViewer'), {
     </div>
   )
 });
+
 
 export default function ArtworkDetailPage() {
   const params = useParams();
@@ -74,6 +75,7 @@ export default function ArtworkDetailPage() {
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
+
 
   if (loading) {
     return (
@@ -207,19 +209,19 @@ export default function ArtworkDetailPage() {
 
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              À propos de cette œuvre
+              {tSync('À propos de cette œuvre')}
             </h2>
             <p className="text-gray-700 leading-relaxed text-lg">
               {artwork.description[currentLang]}
             </p>
           </div>
 
-          {artwork.audioUrl && artwork.audioUrl[currentLang] && (
-            <AudioPlayer
-              audioUrl={artwork.audioUrl[currentLang]}
-              title={artwork.title[currentLang]}
-            />
-          )}
+          {/* Lecteur audio avec génération automatique */}
+          <AudioPlayer
+            artwork={artwork}
+            currentLang={currentLang}
+            title={`${artwork.title[currentLang]} - ${tSync('Description audio')}`}
+          />
         </div>
       </div>
     </div>
