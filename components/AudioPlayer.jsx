@@ -158,6 +158,8 @@ export default function AudioPlayer({ artwork, currentLang, title }) {
           const generatedUrl = data.audioResults[currentLang].audioUrl;
           setAudioUrl(generatedUrl);
           return generatedUrl;
+        } else if (data.audioResults[currentLang]?.fallbackToClient) {
+          console.log('API serveur échouée, utilisation Web Speech API côté client');
         }
       } catch (apiError) {
         console.log('API échouée, utilisation Web Speech API:', apiError);
