@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Camera, Grid3x3, Home, User } from 'lucide-react';
+import { Calendar,Camera, Grid3x3, Home, User } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
 
 export default function Header() {
@@ -25,24 +25,29 @@ export default function Header() {
           </Link>
 
           {/* Navigation Desktop - Visible uniquement sur desktop */}
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
-              <Home className="w-5 h-5" />
-              <span className="font-medium">{tSync('Accueil')}</span>
-            </Link>
-            <Link href="/collection" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
-              <Grid3x3 className="w-5 h-5" />
-              <span className="font-medium">{tSync('Collection')}</span>
-            </Link>
-            <Link href="/scan" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
-              <Camera className="w-5 h-5" />
-              <span className="font-medium">{tSync('Scanner')}</span>
-            </Link>
-            <Link href="/login" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
-              <User className="w-5 h-5" />
-              <span className="font-medium">{tSync('Connexion')}</span>
-            </Link>
-          </nav>
+       {/* Navigation Desktop */}
+<nav className="hidden md:flex items-center gap-6">
+  <Link href="/" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
+    <Home className="w-5 h-5" />
+    <span className="font-medium">{tSync('Accueil')}</span>
+  </Link>
+  <Link href="/collection" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
+    <Grid3x3 className="w-5 h-5" />
+    <span className="font-medium">{tSync('Collection')}</span>
+  </Link>
+  <Link href="/events" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
+    <Calendar className="w-5 h-5" />
+    <span className="font-medium">{tSync('Événements')}</span>
+  </Link>
+  {/* <Link href="/scan" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
+    <Camera className="w-5 h-5" />
+    <span className="font-medium">{tSync('Scanner')}</span>
+  </Link> */}
+  <Link href="/login" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
+    <User className="w-5 h-5" />
+    <span className="font-medium">{tSync('Connexion')}</span>
+  </Link>
+</nav>
 
           <div className="flex items-center gap-4">
 

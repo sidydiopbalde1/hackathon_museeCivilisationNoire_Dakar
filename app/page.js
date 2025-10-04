@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import ArtworkCard from '@/components/ArtworkCard';
 import HeroCarousel from '@/components/HeroCarousel';
+import EventsCarousel from '@/components/EventsCarousel';
 import HomePageSkeleton from '@/components/skeletons/HomePageSkeleton';
 import { useTranslation } from '@/contexts/TranslationContext';
 
@@ -45,7 +46,7 @@ export default function HomePage() {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <p className="text-red-600 mb-4">❌ {error}</p>
+          <p className="text-red-600 mb-4">{error}</p>
           <button
             onClick={fetchArtworks}
             className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-all"
@@ -58,10 +59,19 @@ export default function HomePage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Hero Carousel */}
-      <HeroCarousel />
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Section Hero : Événements à gauche + Carousel à droite */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16">
+        {/* Carousel Événements Vertical - 3 colonnes */}
+        <div className="lg:col-span-3">
+          <EventsCarousel />
+        </div>
 
+        {/* Hero Carousel - 9 colonnes */}
+        <div className="lg:col-span-9">
+          <HeroCarousel />
+        </div>
+      </div>
 
       {/* Featured Artworks */}
       <section>
