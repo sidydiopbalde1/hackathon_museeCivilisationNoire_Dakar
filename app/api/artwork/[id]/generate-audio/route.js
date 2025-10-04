@@ -70,7 +70,8 @@ export async function POST(request, context) {
         console.error(`Erreur génération audio ${lang}:`, error);
         audioResults[lang] = {
           success: false,
-          error: error.message
+          error: error.message,
+          fallbackToClient: true // Indiquer que le client doit utiliser Web Speech API
         };
       }
     }
