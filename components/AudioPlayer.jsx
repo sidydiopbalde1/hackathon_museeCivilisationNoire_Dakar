@@ -24,7 +24,9 @@ export default function AudioPlayer({ artwork, currentLang, title }) {
   // Vérifier si l'audio existe déjà pour la langue actuelle
   useEffect(() => {
     const existingUrl = artwork?.audioUrl?.[currentLang];
-    if (existingUrl) {
+    // Ignorer les URLs statiques qui pointent vers /audio/ (fichiers qui n'existent pas)
+    // et seulement accepter les URLs générées dynamiquement (blob: ou https:)
+    if (existingUrl && (existingUrl.startsWith('blob:') || existingUrl.startsWith('https:'))) {
       setAudioUrl(existingUrl);
     } else {
       setAudioUrl(null);
