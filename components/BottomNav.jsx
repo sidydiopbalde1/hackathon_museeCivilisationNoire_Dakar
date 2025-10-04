@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, Grid3x3, Camera } from 'lucide-react';
+import { Home, Grid3x3, Camera, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslation } from '@/contexts/TranslationContext';
@@ -13,6 +13,7 @@ export default function BottomNav() {
     { href: '/', icon: Home, label: 'Accueil' },
     { href: '/collection', icon: Grid3x3, label: 'Collection' },
     { href: '/scan', icon: Camera, label: 'Scanner', isHighlight: true },
+    { href: '/login', icon: User, label: 'Connexion' },
   ];
 
   return (

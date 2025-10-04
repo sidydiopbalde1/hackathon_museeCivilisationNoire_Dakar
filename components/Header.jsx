@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Camera, Grid3x3, Home } from 'lucide-react';
+import { Camera, Grid3x3, Home, User } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
 
 export default function Header() {
@@ -38,9 +38,15 @@ export default function Header() {
               <Camera className="w-5 h-5" />
               <span className="font-medium">{tSync('Scanner')}</span>
             </Link>
+            <Link href="/login" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
+              <User className="w-5 h-5" />
+              <span className="font-medium">{tSync('Connexion')}</span>
+            </Link>
           </nav>
 
-          <div className="flex gap-2">
+          <div className="flex items-center gap-4">
+
+            <div className="flex gap-2">
             {languages.map((lang) => (
               <button
                 key={lang.code}
@@ -55,6 +61,7 @@ export default function Header() {
                 {lang.flag} {lang.code.toUpperCase()}
               </button>
             ))}
+            </div>
           </div>
         </div>
       </div>
