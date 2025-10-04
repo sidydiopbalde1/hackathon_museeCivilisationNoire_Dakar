@@ -8,17 +8,23 @@ import { Heart, Share2, ArrowLeft, Loader2 } from 'lucide-react';
 import AudioPlayer from '@/components/AudioPlayer';
 import { useTranslation } from '@/contexts/TranslationContext';
 
-// Import dynamique des composants pour éviter les erreurs SSR
-const Artwork3DViewer = dynamic(() => import('@/components/Artwork3DViewer'), {
-  ssr: false,
-  loading: () => (
+// Composant de chargement pour la vue 3D
+const Loading3D = () => {
+  const { tSync } = useTranslation();
+  return (
     <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
-        <p className="text-gray-500">Chargement de la vue 3D...</p>
+        <p className="text-gray-500">{tSync('Chargement de la vue 3D...')}</p>
       </div>
     </div>
-  )
+  );
+};
+
+// Import dynamique des composants pour éviter les erreurs SSR
+const Artwork3DViewer = dynamic(() => import('@/components/Artwork3DViewer'), {
+  ssr: false,
+  loading: () => <Loading3D />
 });
 
 
@@ -43,13 +49,13 @@ export default function ArtworkDetailPage() {
       const response = await fetch(`/api/artwork/${params.id}`);
       
       if (!response.ok) {
-        throw new Error('Œuvre non trouvée');
+        throw new Error(tSync('Œuvre non trouvée'));
       }
 
       const data = await response.json();
       setArtwork(data);
     } catch (error) {
-      console.error('Erreur:', error);
+      console.error(tSync('Erreur:'), error);
     } finally {
       setLoading(false);
     }
@@ -60,15 +66,15 @@ export default function ArtworkDetailPage() {
       try {
         await navigator.share({
           title: artwork.title[currentLang],
-          text: `Découvrez ${artwork.title[currentLang]} au Musée des Civilisations Noires`,
+          text: `${tSync('Découvrez')} ${artwork.title[currentLang]} ${tSync('au Musée des Civilisations Noires')}`,
           url: window.location.href,
         });
       } catch (err) {
-        console.log('Partage annulé');
+        console.log(tSync('Partage annulé'));
       }
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert('Lien copié dans le presse-papier !');
+      alert(tSync('Lien copié dans le presse-papier !'));
     }
   };
 
@@ -82,7 +88,7 @@ export default function ArtworkDetailPage() {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin text-amber-600 mx-auto mb-4" />
-          <p className="text-gray-600">Chargement de l'œuvre...</p>
+          <p className="text-gray-600">{tSync('Chargement de l\'œuvre...')}</p>
         </div>
       </div>
     );
@@ -92,13 +98,13 @@ export default function ArtworkDetailPage() {
     return (
       <div className="max-w-6xl mx-auto px-4 py-16 text-center">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">
-          Œuvre non trouvée
+          {tSync('Œuvre non trouvée')}
         </h1>
         <button
           onClick={() => router.push('/')}
           className="text-amber-700 hover:text-amber-900 font-semibold"
         >
-          Retour à l'accueil
+          {tSync('Retour à l\'accueil')}
         </button>
       </div>
     );
@@ -111,7 +117,7 @@ export default function ArtworkDetailPage() {
         className="mb-6 text-amber-700 hover:text-amber-900 flex items-center gap-2 font-semibold transition-colors"
       >
         <ArrowLeft className="w-5 h-5" />
-        Retour
+        {tSync('Retour')}
       </button>
 
       <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
@@ -190,19 +196,19 @@ export default function ArtworkDetailPage() {
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div className="bg-amber-50 p-4 rounded-xl">
-              <p className="text-sm text-gray-600 mb-1">Période</p>
+              <p className="text-sm text-gray-600 mb-1">{tSync('Période')}</p>
               <p className="font-semibold text-gray-900">{artwork.period}</p>
             </div>
             <div className="bg-amber-50 p-4 rounded-xl">
-              <p className="text-sm text-gray-600 mb-1">Origine</p>
+              <p className="text-sm text-gray-600 mb-1">{tSync('Origine')}</p>
               <p className="font-semibold text-gray-900">{artwork.origin}</p>
             </div>
             <div className="bg-amber-50 p-4 rounded-xl">
-              <p className="text-sm text-gray-600 mb-1">Matériau</p>
+              <p className="text-sm text-gray-600 mb-1">{tSync('Matériau')}</p>
               <p className="font-semibold text-gray-900">{artwork.material}</p>
             </div>
             <div className="bg-amber-50 p-4 rounded-xl">
-              <p className="text-sm text-gray-600 mb-1">Dimensions</p>
+              <p className="text-sm text-gray-600 mb-1">{tSync('Dimensions')}</p>
               <p className="font-semibold text-gray-900">{artwork.dimensions}</p>
             </div>
           </div>
