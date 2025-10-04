@@ -3,16 +3,32 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { Heart, Share2, ArrowLeft, Loader2 } from 'lucide-react';
 import AudioPlayer from '@/components/AudioPlayer';
+import { useTranslation } from '@/contexts/TranslationContext';
+
+// Import dynamique du composant 3D pour éviter les erreurs SSR
+const Artwork3DViewer = dynamic(() => import('@/components/Artwork3DViewer'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
+        <p className="text-gray-500">Chargement de la vue 3D...</p>
+      </div>
+    </div>
+  )
+});
 
 export default function ArtworkDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const { tSync, currentLang } = useTranslation();
   const [artwork, setArtwork] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [currentLang, setCurrentLang] = useState('fr');
+  const [view3D, setView3D] = useState(false);
 
   useEffect(() => {
     if (params.id) {
@@ -97,14 +113,48 @@ export default function ArtworkDetailPage() {
       </button>
 
       <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+        {/* Toggle 2D/3D */}
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setView3D(false)}
+              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                !view3D 
+                  ? 'bg-amber-600 text-white' 
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              📷 {tSync('Vue 2D')}
+            </button>
+            <button
+              onClick={() => setView3D(true)}
+              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                view3D 
+                  ? 'bg-amber-600 text-white' 
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              🎮 {tSync('Vue 3D')}
+            </button>
+            <p className="text-gray-500 text-sm ml-4">
+              {view3D ? tSync('Cliquez et glissez pour explorer en 3D') : tSync('Image haute qualité de l\'œuvre')}
+            </p>
+          </div>
+        </div>
+
+        {/* Affichage conditionnel 2D/3D */}
         <div className="relative h-96 w-full">
-          <Image
-            src={artwork.imageUrl}
-            alt={artwork.title[currentLang]}
-            fill
-            className="object-cover"
-            priority
-          />
+          {view3D ? (
+            <Artwork3DViewer artwork={artwork} />
+          ) : (
+            <Image
+              src={artwork.imageUrl}
+              alt={artwork.title[currentLang]}
+              fill
+              className="object-cover"
+              priority
+            />
+          )}
         </div>
 
         <div className="p-8">
