@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import { X, Upload, Camera, Save } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
+import QRCodeGenerator from '@/components/QRCodeGenerator';
 import Image from 'next/image';
 
 export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
@@ -29,6 +30,8 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
   });
   
   const [isLoading, setIsLoading] = useState(false);
+  const [createdArtwork, setCreatedArtwork] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleInputChange = (field, value, lang = null) => {
     if (lang) {
@@ -89,7 +92,11 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
         imageUrl: imageUrl
       };
       
-      await onSubmit(artworkData);
+      const newArtwork = await onSubmit(artworkData);
+      
+      // Afficher le succès avec l'œuvre créée
+      setCreatedArtwork(newArtwork);
+      setShowSuccess(true);
       
       // Réinitialiser le formulaire
       setFormData({
@@ -102,13 +109,23 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
         imageFile: null,
         imagePreview: null
       });
-      onClose();
     } catch (error) {
       console.error('Erreur:', error);
       alert(error.message || 'Erreur lors de l\'ajout de l\'œuvre');
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleClose = () => {
+    setShowSuccess(false);
+    setCreatedArtwork(null);
+    onClose();
+  };
+
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    setCreatedArtwork(null);
   };
 
   if (!isOpen) return null;
@@ -122,7 +139,7 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
             {tSync('Ajouter une nouvelle œuvre')}
           </h2>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <X className="w-6 h-6" />
@@ -326,7 +343,7 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
           <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
             >
               {tSync('Annuler')}
@@ -343,6 +360,53 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
           </div>
         </form>
       </div>
+
+      {/* Modal de succès avec QR code */}
+      {showSuccess && createdArtwork && (
+        <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center z-10 p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-8 text-center">
+            <div className="mb-6">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                {tSync('Œuvre ajoutée avec succès !')}
+              </h3>
+              <p className="text-gray-600">
+                {tSync('L\'œuvre')} "{createdArtwork.title?.fr}" {tSync('a été créée')}
+              </p>
+            </div>
+
+            {/* Section QR Code */}
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-6">
+              <h4 className="text-lg font-semibold text-amber-900 mb-3">
+                {tSync('Générer un QR code')}
+              </h4>
+              <p className="text-sm text-amber-700 mb-4">
+                {tSync('Créez un QR code pour permettre aux visiteurs d\'accéder facilement à cette œuvre')}
+              </p>
+              <QRCodeGenerator artwork={createdArtwork} />
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={handleCloseSuccess}
+                className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                {tSync('Continuer')}
+              </button>
+              <button
+                onClick={handleClose}
+                className="flex-1 px-4 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+              >
+                {tSync('Fermer')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
