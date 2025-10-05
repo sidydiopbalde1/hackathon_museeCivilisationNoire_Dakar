@@ -3,7 +3,7 @@ name: Deploy to Render
 on:
   push:
     branches:
-      - dev-sidy-diop   # ou main selon ta branche
+      - dev-sidy-diop
 
 jobs:
   build:
@@ -19,8 +19,7 @@ jobs:
 
       - name: Build and push image
         run: |
-          docker build --build-arg MONGODB_URI=${{ secrets.MONGODB_URI }} \
-            -t ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest .
+          docker build --build-arg MONGODB_URI=${{ secrets.MONGODB_URI }} -t ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest
 
 
