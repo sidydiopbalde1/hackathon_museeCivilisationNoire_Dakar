@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import ArtworkCard from '@/components/ArtworkCard';
 import AddArtworkModal from '@/components/AddArtworkModal';
 import EditArtworkModal from '@/components/EditArtworkModal';
-import { Search, Filter, Loader2, Plus } from 'lucide-react';
+import { Search, Filter, Loader2, Plus, Camera } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useArtworks } from '@/contexts/ArtworkContext';
 import Link from 'next/link';
@@ -102,15 +102,24 @@ export default function CollectionPage() {
           <h1 className="text-4xl font-bold text-amber-900">
             Collection complète
           </h1>
-          {isAdmin && (
-            <button
-              onClick={() => setShowAddModal(true)}
-              className="flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl"
+          <div className="flex items-center gap-4">
+            <Link
+              href="/musee-immersif"
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-800 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
-              <Plus className="w-5 h-5" />
-              Ajouter une œuvre
-            </button>
-          )}
+              <Camera className="w-5 h-5" />
+              Exploration FPS
+            </Link>
+            {isAdmin && (
+              <button
+                onClick={() => setShowAddModal(true)}
+                className="flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <Plus className="w-5 h-5" />
+                Ajouter une œuvre
+              </button>
+            )}
+          </div>
         </div>
         <p className="text-gray-700 text-lg">
           Explorez les {artworks.length} œuvres exceptionnelles du musée
