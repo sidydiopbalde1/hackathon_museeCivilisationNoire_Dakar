@@ -42,7 +42,23 @@ export async function POST(request) {
     await connectDB();
     
     const body = await request.json();
-    const artwork = await Artwork.create(body);
+    
+    // Générer un ID unique
+    const artworkCount = await Artwork.countDocuments();
+    const id = `MCN${String(artworkCount + 1).padStart(3, '0')}`;
+    
+    const artworkData = {
+      id,
+      ...body,
+      audioUrl: {
+        fr: `/audio/${id.toLowerCase()}-fr.mp3`,
+        en: `/audio/${id.toLowerCase()}-en.mp3`,
+        wo: `/audio/${id.toLowerCase()}-wo.mp3`
+      },
+      qrCode: id
+    };
+    
+    const artwork = await Artwork.create(artworkData);
 
     return NextResponse.json(artwork, { status: 201 });
   } catch (error) {

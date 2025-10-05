@@ -2,46 +2,36 @@
 
 import { useState, useEffect } from 'react';
 import ArtworkCard from '@/components/ArtworkCard';
-import { Search, Filter, Loader2 } from 'lucide-react';
+import AddArtworkModal from '@/components/AddArtworkModal';
+import EditArtworkModal from '@/components/EditArtworkModal';
+import { Search, Filter, Loader2, Plus } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useArtworks } from '@/contexts/ArtworkContext';
+import Link from 'next/link';
 
 export default function CollectionPage() {
-  const [artworks, setArtworks] = useState([]);
   const [filteredArtworks, setFilteredArtworks] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedOrigin, setSelectedOrigin] = useState('');
   const [origins, setOrigins] = useState([]);
-
-  useEffect(() => {
-    fetchArtworks();
-  }, []);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingArtworkId, setEditingArtworkId] = useState(null);
+  
+  const { user, isAuthenticated } = useAuth();
+  const { artworks, loading, addArtwork, deleteArtwork } = useArtworks();
+  
+  const isAdmin = isAuthenticated && user?.role === 'admin';
 
   useEffect(() => {
     filterArtworks();
   }, [searchQuery, selectedOrigin, artworks]);
 
-  const fetchArtworks = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/artworks');
-      
-      if (!response.ok) {
-        throw new Error('Erreur lors du chargement');
-      }
-
-      const data = await response.json();
-      setArtworks(data);
-      
-      // Extraire les origines uniques
-      const uniqueOrigins = [...new Set(data.map(art => art.origin))].sort();
-      setOrigins(uniqueOrigins);
-      
-    } catch (error) {
-      console.error('Erreur:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    // Extraire les origines uniques quand les artworks changent
+    const uniqueOrigins = [...new Set(artworks.map(art => art.origin))].sort();
+    setOrigins(uniqueOrigins);
+  }, [artworks]);
 
   const filterArtworks = () => {
     let filtered = artworks;
@@ -67,6 +57,33 @@ export default function CollectionPage() {
     setFilteredArtworks(filtered);
   };
 
+  const handleDeleteArtwork = async (artworkId) => {
+    try {
+      await deleteArtwork(artworkId);
+    } catch (error) {
+      alert('Erreur lors de la suppression de l\'œuvre');
+    }
+  };
+
+  const handleAddArtwork = async (artworkData) => {
+    try {
+      await addArtwork(artworkData);
+    } catch (error) {
+      alert('Erreur lors de l\'ajout de l\'œuvre');
+      throw error;
+    }
+  };
+
+  const handleEditArtwork = (artworkId) => {
+    setEditingArtworkId(artworkId);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setEditingArtworkId(null);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -81,9 +98,20 @@ export default function CollectionPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-amber-900 mb-4">
-          Collection complète
-        </h1>
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-4xl font-bold text-amber-900">
+            Collection complète
+          </h1>
+          {isAdmin && (
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              <Plus className="w-5 h-5" />
+              Ajouter une œuvre
+            </button>
+          )}
+        </div>
         <p className="text-gray-700 text-lg">
           Explorez les {artworks.length} œuvres exceptionnelles du musée
         </p>
@@ -126,7 +154,13 @@ export default function CollectionPage() {
       {filteredArtworks.length > 0 ? (
         <div className="grid md:grid-cols-3 gap-8">
           {filteredArtworks.map((artwork) => (
-            <ArtworkCard key={artwork.id || artwork._id} artwork={artwork} />
+            <ArtworkCard 
+              key={artwork.id || artwork._id} 
+              artwork={artwork} 
+              isAdmin={isAdmin}
+              onDelete={handleDeleteArtwork}
+              onEdit={handleEditArtwork}
+            />
           ))}
         </div>
       ) : (
@@ -134,6 +168,20 @@ export default function CollectionPage() {
           <p className="text-gray-500 text-lg">Aucune œuvre trouvée</p>
         </div>
       )}
+
+      {/* Add Artwork Modal */}
+      <AddArtworkModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSubmit={handleAddArtwork}
+      />
+
+      {/* Edit Artwork Modal */}
+      <EditArtworkModal
+        isOpen={showEditModal}
+        onClose={handleCloseEditModal}
+        artworkId={editingArtworkId}
+      />
     </div>
   );
 }
