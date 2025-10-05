@@ -1,0 +1,34 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - dev-sidy-diop   # ou main selon ta branche
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest .
+
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest
+
+      # - name: Deploy to Render
+      #   run: |
+      #     curl -X POST \
+      #       -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+      #       -H "Content-Type: application/json" \
+      #       -d '{"clearCache": true}' \
+      #       https://api.render.com/deploy/srv-xxxxxxxxx # ton service ID Render
