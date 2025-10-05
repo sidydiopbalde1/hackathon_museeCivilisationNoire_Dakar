@@ -8,6 +8,7 @@ import HeroCarousel from '@/components/HeroCarousel';
 import EventsCarousel from '@/components/EventsCarousel';
 import WeeklyStory from '@/components/WeeklyStory';
 import HistoryOfTheWeek from '@/components/HistoryOfTheWeek';
+import StoriesCarousel from '@/components/StoriesCarousel';
 import HomePageSkeleton from '@/components/skeletons/HomePageSkeleton';
 import { useTranslation } from '@/contexts/TranslationContext';
 
@@ -25,7 +26,7 @@ export default function HomePage() {
     try {
       setLoading(true);
       const response = await fetch('/api/artworks');
-      
+
       if (!response.ok) {
         throw new Error('Erreur lors du chargement des œuvres');
       }
@@ -81,6 +82,7 @@ export default function HomePage() {
               {tSync('Histoires de la semaine')}
             </h2>
             <div className="flex flex-col gap-2 overflow-y-auto h-[400px]">
+              <StoriesCarousel />
               <WeeklyStory />
             </div>
           </div>
