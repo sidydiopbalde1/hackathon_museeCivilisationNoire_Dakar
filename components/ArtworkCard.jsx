@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Clock, Edit, Trash2, QrCode } from 'lucide-react';
+import { MapPin, Clock, Edit, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
-import QRCodeGenerator from '@/components/QRCodeGenerator';
 import { useTranslation } from '@/contexts/TranslationContext';
 
 export default function ArtworkCard({ artwork, isAdmin, onDelete, onEdit }) {
@@ -42,11 +41,6 @@ export default function ArtworkCard({ artwork, isAdmin, onDelete, onEdit }) {
       onEdit(artwork.id || artwork._id);
     }
   };
-
-  const handleQRClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
   return (
     <Link href={`/artwork/${artwork.id}`}>
       <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all cursor-pointer transform hover:scale-105">
@@ -61,14 +55,6 @@ export default function ArtworkCard({ artwork, isAdmin, onDelete, onEdit }) {
           
           {isAdmin && (
             <div className="absolute top-2 right-2 flex gap-2">
-              <div onClick={handleQRClick}>
-                <QRCodeGenerator 
-                  artwork={artwork} 
-                  iconOnly={true}
-                  className="!bg-amber-600 hover:!bg-amber-700 !p-2 !text-white !rounded-lg shadow-lg transition-all duration-200 hover:scale-110"
-                />
-              </div>
-              
               <button
                 onClick={handleEdit}
                 className="bg-amber-600 hover:bg-amber-700 text-white p-2 rounded-lg shadow-lg transition-all duration-200 hover:scale-110"
