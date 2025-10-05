@@ -47,7 +47,7 @@ export default function ArtworkDetailPage() {
   const fetchArtwork = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/artwork/${params.id}`);
+      const response = await fetch(`/api/artworks/${params.id}`);
       
       if (!response.ok) {
         throw new Error(tSync('Œuvre non trouvée'));
