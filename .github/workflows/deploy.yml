@@ -6,12 +6,10 @@ on:
       - dev-sidy-diop   # ou main selon ta branche
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Log in to DockerHub
         uses: docker/login-action@v2
@@ -19,13 +17,14 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker image
-        run: docker build \
-          --build-arg MONGODB_URI=${{ secrets.MONGODB_URI }} \
-         -t ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest .
+      - name: Build and push
+        run: |
+          docker build \
+            --build-arg MONGODB_URI=${{ secrets.MONGODB_URI }} \
+            -t ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest .
+          
+          docker push ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest
 
-      - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest
 
       # - name: Deploy to Render
       #   run: |
