@@ -6,7 +6,7 @@ export async function GET(request, { params }) {
   try {
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     
     // Chercher l'événement par le champ "id" personnalisé
     const event = await Event.findOne({ id: id });
@@ -32,7 +32,7 @@ export async function PUT(request, { params }) {
   try {
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     
     const event = await Event.findOneAndUpdate(
@@ -62,7 +62,7 @@ export async function DELETE(request, { params }) {
   try {
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     
     const event = await Event.findOneAndDelete({ id: id });
     

@@ -20,7 +20,8 @@ const EventSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  time: String,
+  startTime: String,
+  endTime: String,
   location: String,
   imageUrl: String,
   category: {
