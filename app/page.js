@@ -72,7 +72,7 @@ export default function HomePage() {
         {/* Hero Carousel - Au centre (6 colonnes) */}
         <div className="lg:col-span-6">
           <HeroCarousel />
-        </div
+        </div>
         {/* Colonne de droite : Stories + Histoire de la semaine (3 colonnes) */}
         <div className="lg:col-span-3 flex flex-col gap-4">
           {/* Stories Carousel */}
@@ -81,62 +81,11 @@ export default function HomePage() {
               {tSync('Histoires de la semaine')}
             </h2>
             <div className="flex flex-col gap-2 overflow-y-auto h-[400px]">
-              <WeeklyStory vertic
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          {/* Featured Artworks */}
-          <section>
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-amber-900">
-                {tSync('Œuvres en vedette')}
-              </h2>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/musee-immersif"
-                  className="flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-5 py-2.5 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl text-sm"
-                >
-                  🎮 {tSync('Exploration FPS')}
-                </Link>
-                <Link
-                  href="/collection"
-                  className="flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-5 py-2.5 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl text-sm"
-                >
-                {tSync('Collection')}
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-                </Link>
-              </d
+              <WeeklyStory />
             </div>
           </div>
-
-          {/* Histoire de la Semaine */}
-          {/* <HistoryOfTheWeek /> */}
         </div>
       </div>
-            {artworks.length > 0 ? (
-              <div className="grid md:grid-cols-4 gap-6">
-                {artworks.slice(0, 4).map((artwork) => (
-                  <ArtworkCard key={artwork.id || artwork._id} artwork={artwork} />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-16 bg-white rounded-xl">
-                <div className="text-6xl mb-4">🏛️</div>
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">
-                  {tSync('Collection en construction')}
-                </h3>
-                <p className="text-gray-500 mb-6">
-                  {tSync('Les œuvres seront bientôt disponibles')}
-                </p>
-                <Link
-                  href="/collection"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all"
-                >
-                  {tSync('Explorer maintenant')}
-                </Link>
-              </div>
-            )}
-          </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Featured Artworks */}
@@ -145,14 +94,25 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold text-amber-900">
               {tSync('Œuvres en vedette')}
             </h2>
-            <Link 
-              href="/collection"
-              className="text-amber-700 hover:text-amber-900 font-semibold"
-            >
-              {tSync('Voir tout')} →
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/musee-immersif"
+                className="flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-5 py-2.5 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl text-sm"
+              >
+                🎮 {tSync('Exploration FPS')}
+              </Link>
+              <Link
+                href="/collection"
+                className="flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-5 py-2.5 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl text-sm"
+              >
+                {tSync('Collection')}
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
           </div>
-          
+
           {artworks.length > 0 ? (
             <div className="grid md:grid-cols-4 gap-6">
               {artworks.slice(0, 4).map((artwork) => (
@@ -160,9 +120,21 @@ export default function HomePage() {
               ))}
             </div>
           ) : (
-            <p className="text-center text-gray-500 py-8">
-              {tSync('Aucune œuvre disponible pour le moment')}
-            </p>
+            <div className="text-center py-16 bg-white rounded-xl">
+              <div className="text-6xl mb-4">🏛️</div>
+              <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                {tSync('Collection en construction')}
+              </h3>
+              <p className="text-gray-500 mb-6">
+                {tSync('Les œuvres seront bientôt disponibles')}
+              </p>
+              <Link
+                href="/collection"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all"
+              >
+                {tSync('Explorer maintenant')}
+              </Link>
+            </div>
           )}
         </section>
 
