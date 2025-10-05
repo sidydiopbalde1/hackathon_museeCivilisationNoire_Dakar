@@ -6,6 +6,7 @@ import Link from 'next/link';
 import ArtworkCard from '@/components/ArtworkCard';
 import HeroCarousel from '@/components/HeroCarousel';
 import EventsCarousel from '@/components/EventsCarousel';
+import StoriesCarousel from '@/components/StoriesCarousel';
 import HomePageSkeleton from '@/components/skeletons/HomePageSkeleton';
 import { useTranslation } from '@/contexts/TranslationContext';
 
@@ -59,59 +60,73 @@ export default function HomePage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Section Hero : Événements à gauche + Carousel à droite */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16">
-        {/* Carousel Événements Vertical - 3 colonnes */}
+    <>
+      {/* Section Hero : Événements à gauche + Carousel au centre + Stories à droite */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 mb-8 px-4 lg:px-8 pt-8">
+        {/* Carousel Événements Vertical - À gauche (3 colonnes) */}
         <div className="lg:col-span-3">
           <EventsCarousel />
         </div>
 
-        {/* Hero Carousel - 9 colonnes */}
-        <div className="lg:col-span-9">
+        {/* Hero Carousel - Au centre (6 colonnes) */}
+        <div className="lg:col-span-6">
           <HeroCarousel />
+        </div>
+
+        {/* Stories Carousel - À droite (3 colonnes) */}
+        <div className="lg:col-span-3">
+          <div className="bg-white rounded-2xl p-4 shadow-lg h-[200px]">
+            <h2 className="text-lg font-bold text-amber-900 mb-4">
+              {tSync('Histoires de la semaine')}
+            </h2>
+            <div className="flex flex-col gap-2 overflow-y-auto h-[420px]">
+              <StoriesCarousel vertical={true} />
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Featured Artworks */}
-      <section>
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold text-amber-900">
-            {tSync('Œuvres en vedette')}
-          </h2>
-          <Link 
-            href="/collection"
-            className="text-amber-700 hover:text-amber-900 font-semibold"
-          >
-            {tSync('Voir tout')} →
-          </Link>
-        </div>
-        
-        {artworks.length > 0 ? (
-          <div className="grid md:grid-cols-4 gap-6">
-            {artworks.slice(0, 4).map((artwork) => (
-              <ArtworkCard key={artwork.id || artwork._id} artwork={artwork} />
-            ))}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Featured Artworks */}
+        <section>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold text-amber-900">
+              {tSync('Œuvres en vedette')}
+            </h2>
+            <Link 
+              href="/collection"
+              className="text-amber-700 hover:text-amber-900 font-semibold"
+            >
+              {tSync('Voir tout')} →
+            </Link>
           </div>
-        ) : (
-          <p className="text-center text-gray-500 py-8">
-            {tSync('Aucune œuvre disponible pour le moment')}
-          </p>
-        )}
-      </section>
+          
+          {artworks.length > 0 ? (
+            <div className="grid md:grid-cols-4 gap-6">
+              {artworks.slice(0, 4).map((artwork) => (
+                <ArtworkCard key={artwork.id || artwork._id} artwork={artwork} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500 py-8">
+              {tSync('Aucune œuvre disponible pour le moment')}
+            </p>
+          )}
+        </section>
 
-      {/* About Section */}
-      <section className="mt-16 bg-white rounded-2xl p-8 shadow-lg">
-        <h2 className="text-3xl font-bold text-amber-900 mb-4">
-          {tSync('À propos du Musée')}
-        </h2>
-        <p className="text-gray-700 text-lg leading-relaxed mb-4">
-          {tSync('Le Musée des Civilisations Noires est l\'un des plus grands espaces culturels du Sénégal et d\'Afrique. Il abrite une richesse patrimoniale inestimable dédiée à la préservation et à la valorisation des civilisations africaines.')}
-        </p>
-        <p className="text-gray-700 text-lg leading-relaxed">
-          {tSync('Grâce à cette plateforme digitale, nous rendons accessible notre collection au monde entier, offrant une expérience enrichie et interactive autour de nos œuvres exceptionnelles.')}
-        </p>
-      </section>
-    </div>
+        {/* About Section */}
+        <section className="mt-16 bg-white rounded-2xl p-8 shadow-lg">
+          <h2 className="text-3xl font-bold text-amber-900 mb-4">
+            {tSync('À propos du Musée')}
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            {tSync('Le Musée des Civilisations Noires est l\'un des plus grands espaces culturels du Sénégal et d\'Afrique. Il abrite une richesse patrimoniale inestimable dédiée à la préservation et à la valorisation des civilisations africaines.')}
+          </p>
+          <p className="text-gray-700 text-lg leading-relaxed">
+            {tSync('Grâce à cette plateforme digitale, nous rendons accessible notre collection au monde entier, offrant une expérience enrichie et interactive autour de nos œuvres exceptionnelles.')}
+          </p>
+        </section>
+      </div>
+    </>
   );
 }
