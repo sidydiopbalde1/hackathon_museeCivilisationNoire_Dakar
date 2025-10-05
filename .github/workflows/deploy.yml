@@ -20,7 +20,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest .
+        run: docker build \
+          --build-arg MONGODB_URI=${{ secrets.MONGODB_URI }} \
+         -t ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest .
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/mcn-museum:latest

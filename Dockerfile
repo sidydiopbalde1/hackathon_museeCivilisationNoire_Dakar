@@ -6,6 +6,11 @@ COPY package*.json ./
 RUN npm ci --legacy-peer-deps
 
 COPY . .
+
+# on passe l'ARG au moment du build
+ARG MONGODB_URI
+ENV MONGODB_URI=$MONGODB_URI
+
 RUN npm run build
 
 # Étape 2 : Production
