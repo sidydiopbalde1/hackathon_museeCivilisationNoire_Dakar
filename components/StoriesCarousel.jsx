@@ -14,7 +14,7 @@ export default function StoriesCarousel({ vertical = false }) {
       id: 1,
       author: {
         name: 'Musée MCN',
-        avatar: 'https://images.unsplash.com/photo-1566127444979-b4d0833e5885?w=200',
+        avatar: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=200',
         isMuseum: true
       },
       items: [
@@ -39,7 +39,7 @@ export default function StoriesCarousel({ vertical = false }) {
       id: 2,
       author: {
         name: 'Dakar',
-        avatar: 'https://images.unsplash.com/photo-1612549401946-42b6ce763968?w=200',
+        avatar: 'https://images.unsplash.com/photo-1577643816920-65b43ba99fba?w=800',
         isCity: true
       },
       items: [
@@ -107,7 +107,7 @@ export default function StoriesCarousel({ vertical = false }) {
     <>
       <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
         {/* Ajouter votre story */}
-        <div className="flex flex-col items-center gap-2 cursor-pointer flex-shrink-0">
+        {/* <div className="flex flex-col items-center gap-2 cursor-pointer flex-shrink-0">
           <div className="relative">
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center border-2 border-white shadow-lg hover:scale-105 transition-transform">
               <Plus className="w-8 h-8 text-gray-600" />
@@ -116,7 +116,7 @@ export default function StoriesCarousel({ vertical = false }) {
           <span className="text-xs text-gray-700 font-medium max-w-[80px] text-center truncate">
             Ajouter
           </span>
-        </div>
+        </div> */}
 
         {/* Stories des autres */}
         {stories.map((story) => (
