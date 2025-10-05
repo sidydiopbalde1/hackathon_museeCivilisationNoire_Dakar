@@ -6,7 +6,9 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { Heart, Share2, ArrowLeft, Loader2, X } from 'lucide-react';
 import AudioPlayer from '@/components/AudioPlayer';
+import QRCodeGenerator from '@/components/QRCodeGenerator';
 import { useTranslation } from '@/contexts/TranslationContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 // Composant de chargement pour la vue 3D
 const Loading3D = () => {
@@ -32,11 +34,14 @@ export default function ArtworkDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { tSync, currentLang } = useTranslation();
+  const { user, isAuthenticated } = useAuth();
   const [artwork, setArtwork] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
   const [view3D, setView3D] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  
+  const isAdmin = isAuthenticated && user?.role === 'admin';
 
   useEffect(() => {
     if (params.id) {
@@ -206,10 +211,13 @@ export default function ArtworkDetailPage() {
               </button>
               <button
                 onClick={handleShare}
-                className="p-3 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition-all"
+                className="p-3 bg-amber-100 text-amber-700 rounded-full hover:bg-amber-200 transition-all"
               >
                 <Share2 className="w-6 h-6" />
               </button>
+              {isAdmin && (
+                <QRCodeGenerator artwork={artwork} iconOnly={true} className="p-3 bg-amber-100 text-amber-700 rounded-full hover:bg-amber-200 transition-all" />
+              )}
             </div>
           </div>
 
@@ -240,6 +248,7 @@ export default function ArtworkDetailPage() {
               {artwork.description[currentLang]}
             </p>
           </div>
+
 
           {/* Lecteur audio avec génération automatique */}
           <AudioPlayer

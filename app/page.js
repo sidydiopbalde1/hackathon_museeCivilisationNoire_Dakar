@@ -112,8 +112,7 @@
               {tSync('À propos du Musée')}
             </h2>
             <p className="text-gray-700 text-lg leading-relaxed mb-4">
-              {tSync('Le Musée des Civilisations Noires est l\'un des plus grands espaces culturels du Sénégal et d\'Afrique. Il abrite une richesse patrimoniale inestimable dédiée à la préservation et à la
-  valorisation des civilisations africaines.')}
+              {tSync('Le Musée des Civilisations Noires est l\'un des plus grands espaces culturels du Sénégal et d\'Afrique. Il abrite une richesse patrimoniale inestimable dédiée à la préservation et à la valorisation des civilisations africaines.')}
             </p>
             <p className="text-gray-700 text-lg leading-relaxed">
               {tSync('Grâce à cette plateforme digitale, nous rendons accessible notre collection au monde entier, offrant une expérience enrichie et interactive autour de nos œuvres exceptionnelles.')}
