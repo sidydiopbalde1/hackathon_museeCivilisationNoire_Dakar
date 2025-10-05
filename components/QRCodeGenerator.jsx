@@ -5,6 +5,7 @@ import QRCode from 'qrcode';
 import html2canvas from 'html2canvas';
 import { QrCode, Download, Share2, Printer, Copy, X } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
+import { useHydration } from '@/hooks/useHydration';
 
 export default function QRCodeGenerator({ artwork, className = '', iconOnly = false }) {
   const [qrCodeUrl, setQrCodeUrl] = useState('');
@@ -12,10 +13,12 @@ export default function QRCodeGenerator({ artwork, className = '', iconOnly = fa
   const [isGenerating, setIsGenerating] = useState(false);
   const qrRef = useRef(null);
   const { tSync } = useTranslation();
+  const isHydrated = useHydration();
 
   // Générer l'URL complète de l'œuvre
   const getArtworkUrl = () => {
-    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+    if (!isHydrated) return 'https://musee-civilisations-noires.com/artwork/loading';
+    const baseUrl = window.location.origin;
     return `${baseUrl}/artwork/${artwork.id || artwork._id}`;
   };
 

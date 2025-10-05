@@ -20,8 +20,8 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr">
-      <body className={inter.className}>
+    <html lang="fr" suppressHydrationWarning={true}>
+      <body className={inter.className} suppressHydrationWarning={true}>
         <AuthProvider>
           <ArtworkProvider>
             <TranslationProvider>
