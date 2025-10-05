@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import Header from '@/components/Header';
 import BottomNav from '@/components/BottomNav';
 import { TranslationProvider } from '@/contexts/TranslationContext';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { ArtworkProvider } from '@/contexts/ArtworkContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,15 +22,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <TranslationProvider>
-          <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50">
-            <Header />
-            <main className="pb-24 md:pb-0">
-              {children}
-            </main>
-            <BottomNav />
-          </div>
-        </TranslationProvider>
+        <AuthProvider>
+          <ArtworkProvider>
+            <TranslationProvider>
+              <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50">
+                <Header />
+                <main className="pb-24 md:pb-0">
+                  {children}
+                </main>
+                <BottomNav />
+              </div>
+            </TranslationProvider>
+          </ArtworkProvider>
+        </AuthProvider>
       </body>
     </html>
   );

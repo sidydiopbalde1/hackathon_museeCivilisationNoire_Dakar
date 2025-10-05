@@ -1,27 +1,39 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Eye, EyeOff, Mail, Lock, ArrowLeft } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const { tSync } = useTranslation();
+  const router = useRouter();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
     
-    // Simulation de connexion
-    setTimeout(() => {
+    try {
+      const result = await login(email, password);
+      
+      if (result.success) {
+        router.push('/');
+      }
+    } catch (error) {
+      setError(error.message || 'Erreur de connexion');
+    } finally {
       setIsLoading(false);
-      alert(tSync('Connexion réussie !'));
-    }, 1500);
+    }
   };
 
   return (
@@ -85,6 +97,13 @@ export default function LoginPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Message d'erreur */}
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
+                  {error}
+                </div>
+              )}
+
               {/* Email */}
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
