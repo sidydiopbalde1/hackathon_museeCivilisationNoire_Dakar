@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import { Heart, Share2, ArrowLeft, Loader2, X } from 'lucide-react';
 import AudioPlayer from '@/components/AudioPlayer';
 import QRCodeGenerator from '@/components/QRCodeGenerator';
+import DynamicVideoPlayer from '@/components/DynamicVideoPlayer';
 import { useTranslation } from '@/contexts/TranslationContext';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -249,6 +250,13 @@ export default function ArtworkDetailPage() {
             </p>
           </div>
 
+          {/* Lecteur vidéo dynamique multilingue */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              {tSync('Présentation vidéo')}
+            </h2>
+            <DynamicVideoPlayer artwork={artwork} />
+          </div>
 
           {/* Lecteur audio avec génération automatique */}
           <AudioPlayer
@@ -319,7 +327,9 @@ export default function ArtworkDetailPage() {
               <div className="mb-3">
                 <p className="text-sm text-gray-600 mb-2">{tSync('Lien de la page')} :</p>
                 <div className="p-3 bg-gray-50 rounded-lg border">
-                  <p className="text-sm text-gray-800 break-all">{typeof window !== 'undefined' ? window.location.href : ''}</p>
+                  <p className="text-sm text-gray-800 break-all" suppressHydrationWarning={true}>
+                    {typeof window !== 'undefined' ? window.location.href : 'Loading...'}
+                  </p>
                 </div>
               </div>
               <button

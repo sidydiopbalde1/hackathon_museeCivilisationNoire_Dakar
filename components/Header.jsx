@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Calendar,Camera, Grid3x3, Home, User } from 'lucide-react';
+import { Calendar, Camera, Grid3x3, Home, User, Building } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
 import { useAuth } from '@/contexts/AuthContext';
 import UserAvatar from './UserAvatar';
@@ -37,6 +37,10 @@ export default function Header() {
   <Link href="/collection" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
     <Grid3x3 className="w-5 h-5" />
     <span className="font-medium">{tSync('Collection')}</span>
+  </Link>
+  <Link href="/visite-virtuelle" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
+    <Building className="w-5 h-5" />
+    <span className="font-medium">{tSync('Visite 3D')}</span>
   </Link>
   <Link href="/events" className="flex items-center gap-2 text-white hover:text-amber-200 transition-colors">
     <Calendar className="w-5 h-5" />
