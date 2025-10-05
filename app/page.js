@@ -70,19 +70,13 @@
                 {tSync('Œuvres en vedette')}
               </h2>
               <div className="flex flex-wrap gap-3">
-                <Link 
-                  href="/visite-virtuelle"
-                  className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-700 text-white px-5 py-2.5 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-800 transition-all duration-200 shadow-lg hover:shadow-xl text-sm"
-                >
-                  🏛️ {tSync('Visite Virtuelle')}
-                </Link>
-                <Link 
+                <Link
                   href="/musee-immersif"
-                  className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-700 text-white px-5 py-2.5 rounded-xl font-semibold hover:from-emerald-700 hover:to-teal-800 transition-all duration-200 shadow-lg hover:shadow-xl text-sm"
+                  className="flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-5 py-2.5 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl text-sm"
                 >
                   🎮 {tSync('Exploration FPS')}
                 </Link>
-                <Link 
+                <Link
                   href="/collection"
                   className="flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-5 py-2.5 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all duration-200 shadow-lg hover:shadow-xl text-sm"
                 >
@@ -109,7 +103,7 @@
                 <p className="text-gray-500 mb-6">
                   {tSync('Les œuvres seront bientôt disponibles')}
                 </p>
-                <Link 
+                <Link
                   href="/collection"
                   className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-600 to-orange-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-amber-700 hover:to-orange-800 transition-all"
                 >

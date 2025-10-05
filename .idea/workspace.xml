@@ -7,12 +7,9 @@
     <list default="true" id="93ec04f6-8823-42e4-bd27-64d05f249979" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/artwork/[id]/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/artwork/[id]/page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/collection/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/collection/page.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/QRCodeGenerator.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/QRCodeGenerator.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ImmersiveMuseumTour.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ImmersiveMuseumTour.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +130,7 @@
       <workItem from="1759588275429" duration="6287000" />
       <workItem from="1759603522060" duration="14000" />
       <workItem from="1759603656261" duration="16528000" />
-      <workItem from="1759678420053" duration="328000" />
+      <workItem from="1759678420053" duration="1517000" />
     </task>
     <servers />
   </component>

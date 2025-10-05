@@ -4,12 +4,13 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { Heart, Share2, ArrowLeft, Loader2, X } from 'lucide-react';
+import { Heart, Share2, ArrowLeft, Loader2, X, Camera } from 'lucide-react';
 import AudioPlayer from '@/components/AudioPlayer';
 import QRCodeGenerator from '@/components/QRCodeGenerator';
 import DynamicVideoPlayer from '@/components/DynamicVideoPlayer';
 import { useTranslation } from '@/contexts/TranslationContext';
 import { useAuth } from '@/contexts/AuthContext';
+import Link from 'next/link';
 
 // Composant de chargement pour la vue 3D
 const Loading3D = () => {
@@ -148,30 +149,39 @@ export default function ArtworkDetailPage() {
       <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
         {/* Toggle 2D/3D */}
         <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setView3D(false)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                !view3D 
-                  ? 'bg-amber-600 text-white' 
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setView3D(false)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  !view3D 
+                    ? 'bg-amber-600 text-white' 
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                📷 {tSync('Vue 2D')}
+              </button>
+              <button
+                onClick={() => setView3D(true)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  view3D 
+                    ? 'bg-amber-600 text-white' 
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                🎮 {tSync('Vue 3D')}
+              </button>
+              <p className="text-gray-500 text-sm ml-4">
+                {view3D ? tSync('Cliquez et glissez pour explorer en 3D') : tSync('Image haute qualité de l\'œuvre')}
+              </p>
+            </div>
+            <Link
+              href="/musee-immersif"
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-700 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-800 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
-              📷 {tSync('Vue 2D')}
-            </button>
-            <button
-              onClick={() => setView3D(true)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                view3D 
-                  ? 'bg-amber-600 text-white' 
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
-            >
-              🎮 {tSync('Vue 3D')}
-            </button>
-            <p className="text-gray-500 text-sm ml-4">
-              {view3D ? tSync('Cliquez et glissez pour explorer en 3D') : tSync('Image haute qualité de l\'œuvre')}
-            </p>
+              <Camera className="w-4 h-4" />
+              {tSync('Exploration FPS')}
+            </Link>
           </div>
         </div>
 

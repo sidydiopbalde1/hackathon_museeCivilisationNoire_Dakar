@@ -98,10 +98,10 @@ function Player() {
       position.current.y = Math.max(2, position.current.y - 9.8 * delta);
     }
     
-    // Limites du musée
-    position.current.x = Math.max(-45, Math.min(45, position.current.x));
-    position.current.z = Math.max(-45, Math.min(45, position.current.z));
-    position.current.y = Math.max(1, Math.min(15, position.current.y));
+    // Limites du musée (permettre de s'approcher plus près des murs)
+    position.current.x = Math.max(-49, Math.min(49, position.current.x));
+    position.current.z = Math.max(-49, Math.min(49, position.current.z));
+    position.current.y = Math.max(0.5, Math.min(15, position.current.y));
     
     camera.position.copy(position.current);
   });
@@ -176,7 +176,14 @@ function ArtworkFrame({ artwork, position, rotation = [0, 0, 0], onSelect }) {
       
       {/* Image de l'œuvre */}
       <Plane args={[2.8, 3.8]} position={[0, 0, 0.11]}>
-        <meshStandardMaterial color="#F5DEB3" />
+        <meshStandardMaterial>
+          {artwork.imageUrl && (
+            <primitive 
+              object={new THREE.TextureLoader().load(artwork.imageUrl)} 
+              attach="map" 
+            />
+          )}
+        </meshStandardMaterial>
       </Plane>
       
       {/* Plaque descriptive */}
