@@ -1,12 +1,11 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { X, Upload, Camera, Save } from 'lucide-react';
+import { X, Upload, Save, Calendar, Clock, MapPin } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
-import QRCodeGenerator from '@/components/QRCodeGenerator';
 import Image from 'next/image';
 
-export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
+export default function AddEventModal({ isOpen, onClose, onSubmit }) {
   const { currentLang, tSync } = useTranslation();
   const fileInputRef = useRef(null);
   
@@ -21,17 +20,28 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
       en: '',
       wo: ''
     },
-    period: '',
-    origin: '',
-    material: '',
-    dimensions: '',
+    date: '',
+    startTime: '',
+    endTime: '',
+    location: '',
+    category: 'exposition',
+    price: 'Gratuit',
+    capacity: '',
     imageFile: null,
     imagePreview: null
   });
   
   const [isLoading, setIsLoading] = useState(false);
-  const [createdArtwork, setCreatedArtwork] = useState(null);
+  const [createdEvent, setCreatedEvent] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
+
+  const categories = [
+    { value: 'exposition', label: 'Exposition' },
+    { value: 'conference', label: 'Conférence' },
+    { value: 'atelier', label: 'Atelier' },
+    { value: 'spectacle', label: 'Spectacle' },
+    { value: 'visite', label: 'Visite guidée' }
+  ];
 
   const handleInputChange = (field, value, lang = null) => {
     if (lang) {
@@ -81,42 +91,50 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
         imageUrl = await convertToBase64(formData.imageFile);
       }
       
-      // Créer l'œuvre avec l'image base64
-      const artworkData = {
+      // Créer l'événement avec l'image base64
+      const eventData = {
         title: formData.title,
         description: formData.description,
-        period: formData.period,
-        origin: formData.origin,
-        material: formData.material,
-        dimensions: formData.dimensions,
+        date: formData.date,
+        startTime: formData.startTime,
+        endTime: formData.endTime,
+        location: formData.location,
+        category: formData.category,
+        price: formData.price,
+        capacity: formData.capacity ? parseInt(formData.capacity) : null,
         imageUrl: imageUrl
       };
       
-      const newArtwork = await onSubmit(artworkData);
+      const newEvent = await onSubmit(eventData);
       
-      // Afficher le succès avec l'œuvre créée
-      setCreatedArtwork(newArtwork);
+      // Afficher le succès avec l'événement créé
+      setCreatedEvent(newEvent);
       setShowSuccess(true);
       
       // Fermer le modal principal après 2 secondes
       setTimeout(() => {
-        handleClose();
+        setShowSuccess(false);
+        setCreatedEvent(null);
+        onClose();
       }, 2000);
       
       // Réinitialiser le formulaire
       setFormData({
         title: { fr: '', en: '', wo: '' },
         description: { fr: '', en: '', wo: '' },
-        period: '',
-        origin: '',
-        material: '',
-        dimensions: '',
+        date: '',
+        startTime: '',
+        endTime: '',
+        location: '',
+        category: 'exposition',
+        price: 'Gratuit',
+        capacity: '',
         imageFile: null,
         imagePreview: null
       });
     } catch (error) {
       console.error('Erreur:', error);
-      alert(error.message || 'Erreur lors de l\'ajout de l\'œuvre');
+      alert(error.message || 'Erreur lors de l\'ajout de l\'événement');
     } finally {
       setIsLoading(false);
     }
@@ -124,13 +142,27 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
 
   const handleClose = () => {
     setShowSuccess(false);
-    setCreatedArtwork(null);
+    setCreatedEvent(null);
+    // Réinitialiser le formulaire
+    setFormData({
+      title: { fr: '', en: '', wo: '' },
+      description: { fr: '', en: '', wo: '' },
+      date: '',
+      startTime: '',
+      endTime: '',
+      location: '',
+      category: 'exposition',
+      price: 'Gratuit',
+      capacity: '',
+      imageFile: null,
+      imagePreview: null
+    });
     onClose();
   };
 
   const handleCloseSuccess = () => {
     setShowSuccess(false);
-    setCreatedArtwork(null);
+    setCreatedEvent(null);
   };
 
   if (!isOpen) return null;
@@ -141,7 +173,7 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-2xl font-bold text-amber-900">
-            {tSync('Ajouter une nouvelle œuvre')}
+            {tSync('Ajouter un nouvel événement')}
           </h2>
           <button
             onClick={handleClose}
@@ -155,7 +187,7 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
           {/* Image Upload */}
           <div className="space-y-4">
             <label className="block text-sm font-medium text-gray-700">
-              {tSync('Image de l\'œuvre')} *
+              {tSync('Image de l\'événement')}
             </label>
             
             <div className="flex gap-6">
@@ -283,17 +315,17 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
             </div>
           </div>
 
-          {/* Other fields */}
-          <div className="grid md:grid-cols-2 gap-4">
+          {/* Event details */}
+          <div className="grid md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {tSync('Période')} *
+                <Calendar className="w-4 h-4 inline mr-1" />
+                {tSync('Date')} *
               </label>
               <input
-                type="text"
-                value={formData.period}
-                onChange={(e) => handleInputChange('period', e.target.value)}
-                placeholder="Ex: XVe - XVIIIe siècle"
+                type="date"
+                value={formData.date}
+                onChange={(e) => handleInputChange('date', e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
                 required
               />
@@ -301,15 +333,27 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
             
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {tSync('Origine')} *
+                <Clock className="w-4 h-4 inline mr-1" />
+                {tSync('Heure de début')}
               </label>
               <input
-                type="text"
-                value={formData.origin}
-                onChange={(e) => handleInputChange('origin', e.target.value)}
-                placeholder="Ex: Mali, Nigeria..."
+                type="time"
+                value={formData.startTime}
+                onChange={(e) => handleInputChange('startTime', e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                required
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                <Clock className="w-4 h-4 inline mr-1" />
+                {tSync('Heure de fin')}
+              </label>
+              <input
+                type="time"
+                value={formData.endTime}
+                onChange={(e) => handleInputChange('endTime', e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
               />
             </div>
           </div>
@@ -317,29 +361,62 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {tSync('Matériaux')} *
+                <MapPin className="w-4 h-4 inline mr-1" />
+                {tSync('Lieu')}
               </label>
               <input
                 type="text"
-                value={formData.material}
-                onChange={(e) => handleInputChange('material', e.target.value)}
-                placeholder="Ex: Bois, fibres végétales"
+                value={formData.location}
+                onChange={(e) => handleInputChange('location', e.target.value)}
+                placeholder="Ex: Salle de conférence, Auditorium..."
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                required
               />
             </div>
             
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                {tSync('Dimensions')} *
+                {tSync('Catégorie')} *
+              </label>
+              <select
+                value={formData.category}
+                onChange={(e) => handleInputChange('category', e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                required
+              >
+                {categories.map(cat => (
+                  <option key={cat.value} value={cat.value}>
+                    {tSync(cat.label)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {tSync('Prix')}
               </label>
               <input
                 type="text"
-                value={formData.dimensions}
-                onChange={(e) => handleInputChange('dimensions', e.target.value)}
-                placeholder="Ex: 65 x 35 x 15 cm"
+                value={formData.price}
+                onChange={(e) => handleInputChange('price', e.target.value)}
+                placeholder="Ex: Gratuit, 5000 FCFA..."
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
-                required
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {tSync('Capacité')}
+              </label>
+              <input
+                type="number"
+                value={formData.capacity}
+                onChange={(e) => handleInputChange('capacity', e.target.value)}
+                placeholder="Ex: 50, 100..."
+                min="1"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
               />
             </div>
           </div>
@@ -356,18 +433,18 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
             
             <button
               type="submit"
-              disabled={isLoading || !formData.imageFile}
+              disabled={isLoading}
               className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-700 text-white rounded-lg hover:from-amber-700 hover:to-orange-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-4 h-4" />
-              {isLoading ? tSync('Ajout en cours...') : tSync('Ajouter l\'œuvre')}
+              {isLoading ? tSync('Ajout en cours...') : tSync('Ajouter l\'événement')}
             </button>
           </div>
         </form>
       </div>
 
-      {/* Modal de succès avec QR code */}
-      {showSuccess && createdArtwork && (
+      {/* Modal de succès */}
+      {showSuccess && createdEvent && (
         <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center z-10 p-4">
           <div className="bg-white rounded-2xl max-w-md w-full p-8 text-center">
             <div className="mb-6">
@@ -377,22 +454,11 @@ export default function AddArtworkModal({ isOpen, onClose, onSubmit }) {
                 </svg>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                {tSync('Œuvre ajoutée avec succès !')}
+                {tSync('Événement ajouté avec succès !')}
               </h3>
               <p className="text-gray-600">
-                {tSync('L\'œuvre')} "{createdArtwork.title?.fr}" {tSync('a été créée')}
+                {tSync('L\'événement')} "{createdEvent.title?.fr}" {tSync('a été créé')}
               </p>
-            </div>
-
-            {/* Section QR Code */}
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-6">
-              <h4 className="text-lg font-semibold text-amber-900 mb-3">
-                {tSync('Générer un QR code')}
-              </h4>
-              <p className="text-sm text-amber-700 mb-4">
-                {tSync('Créez un QR code pour permettre aux visiteurs d\'accéder facilement à cette œuvre')}
-              </p>
-              <QRCodeGenerator artwork={createdArtwork} />
             </div>
 
             <div className="flex gap-3">
