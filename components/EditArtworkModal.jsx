@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { X, Upload, Camera, Save } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
 import { useArtworks } from '@/contexts/ArtworkContext';
+import QRCodeGenerator from '@/components/QRCodeGenerator';
 import Image from 'next/image';
 
 export default function EditArtworkModal({ isOpen, onClose, artworkId }) {
@@ -348,6 +349,24 @@ export default function EditArtworkModal({ isOpen, onClose, artworkId }) {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
                 required
               />
+            </div>
+          </div>
+
+          {/* Section QR Code */}
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-lg font-semibold text-amber-900 mb-2">
+                  {tSync('QR Code de l\'œuvre')}
+                </h3>
+                <p className="text-sm text-amber-700">
+                  {tSync('Générez un QR code pour partager facilement cette œuvre')}
+                </p>
+              </div>
+              <QRCodeGenerator artwork={currentArtwork} />
+            </div>
+            <div className="text-xs text-amber-600 bg-amber-100 p-3 rounded-lg">
+              <strong>{tSync('Astuce')} :</strong> {tSync('Vous pouvez imprimer ce QR code et l\'afficher près de l\'œuvre physique pour permettre aux visiteurs d\'accéder aux informations détaillées.')}
             </div>
           </div>
 
