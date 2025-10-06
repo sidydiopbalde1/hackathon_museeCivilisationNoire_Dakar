@@ -95,7 +95,32 @@ export default function StoriesCarousel({ vertical = false }) {
         }
       ],
       hasNew: false
-    }
+    },
+    {
+      id: 1,
+      author: {
+        name: 'Musée MCN',
+        avatar: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=200',
+        isMuseum: true
+      },
+      items: [
+        {
+          id: 1,
+          type: 'image',
+          url: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800',
+          caption: 'Nouvelle exposition de masques sacrés',
+          duration: 5000
+        },
+        {
+          id: 2,
+          type: 'image',
+          url: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800',
+          caption: 'Découvrez nos textiles traditionnels',
+          duration: 5000
+        }
+      ],
+      hasNew: true
+    },
   ];
 
   const handleStoryClick = (story) => {
