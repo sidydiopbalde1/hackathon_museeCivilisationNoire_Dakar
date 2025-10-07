@@ -4,10 +4,12 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { Heart, Share2, ArrowLeft, Loader2, X, Camera } from 'lucide-react';
+import { Heart, Share2, ArrowLeft, Loader2, X, Camera, MapPin, Navigation } from 'lucide-react';
 import AudioPlayer from '@/components/AudioPlayer';
 import QRCodeGenerator from '@/components/QRCodeGenerator';
 import DynamicVideoPlayer from '@/components/DynamicVideoPlayer';
+import MapComponent from '@/components/MapComponent';
+import RouteMapComponent from '@/components/RouteMapComponent';
 import { useTranslation } from '@/contexts/TranslationContext';
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
@@ -42,6 +44,8 @@ export default function ArtworkDetailPage() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [view3D, setView3D] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [viewMode, setViewMode] = useState('location'); // 'location' or 'route'
   
   const isAdmin = isAuthenticated && user?.role === 'admin';
 
@@ -175,13 +179,22 @@ export default function ArtworkDetailPage() {
                 {view3D ? tSync('Cliquez et glissez pour explorer en 3D') : tSync('Image haute qualité de l\'œuvre')}
               </p>
             </div>
-            <Link
-              href="/musee-immersif"
-              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-700 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-800 transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
-              <Camera className="w-4 h-4" />
-              {tSync('Exploration FPS')}
-            </Link>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowLocationModal(true)}
+                className="flex items-center gap-2 bg-gradient-to-r from-green-600 to-emerald-700 text-white px-4 py-2 rounded-lg font-medium hover:from-green-700 hover:to-emerald-800 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <MapPin className="w-4 h-4" />
+                {tSync('Localisation')}
+              </button>
+              <Link
+                href="/musee-immersif"
+                className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-700 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-800 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <Camera className="w-4 h-4" />
+                {tSync('Exploration FPS')}
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -258,6 +271,15 @@ export default function ArtworkDetailPage() {
             <p className="text-gray-700 leading-relaxed text-lg">
               {artwork.description[currentLang]}
             </p>
+          </div>
+
+          {/* Affichage de la carte de localisation */}
+          <div className="mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <MapPin className="w-6 h-6 text-amber-600" />
+              <h2 className="text-2xl font-bold text-gray-900">{tSync('Localisation')}</h2>
+            </div>
+            <MapComponent artwork={artwork} />
           </div>
 
           {/* Lecteur vidéo dynamique multilingue */}
@@ -351,6 +373,74 @@ export default function ArtworkDetailPage() {
                 className="w-full p-3 bg-gray-100 text-gray-800 rounded-xl hover:bg-gray-200 transition-colors font-medium"
               >
                 {tSync('Copier le lien')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Modal de localisation */}
+      {showLocationModal && artwork && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-6 max-w-4xl w-full max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                <MapPin className="w-6 h-6 text-green-600" />
+                {tSync('Localisation de l\'œuvre')}
+              </h3>
+              <button
+                onClick={() => setShowLocationModal(false)}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="mb-4">
+              <div className="flex border-b border-gray-200">
+                <button
+                  className={`px-4 py-2 font-medium ${
+                    viewMode === 'location' 
+                      ? 'text-green-600 border-b-2 border-green-600' 
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                  onClick={() => setViewMode('location')}
+                >
+                  {tSync('Localisation')}
+                </button>
+                <button
+                  className={`px-4 py-2 font-medium ${
+                    viewMode === 'route' 
+                      ? 'text-green-600 border-b-2 border-green-600' 
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                  onClick={() => setViewMode('route')}
+                >
+                  {tSync('Itinéraire')}
+                </button>
+              </div>
+            </div>
+            
+            <div className="flex-grow overflow-hidden">
+              {viewMode === 'location' ? (
+                artwork.location ? (
+                  <MapComponent artwork={artwork} />
+                ) : (
+                  <div className="flex items-center justify-center h-64 bg-gray-100 rounded-lg">
+                    <p className="text-gray-500">{tSync('Localisation non disponible pour cette œuvre')}</p>
+                  </div>
+                )
+              ) : (
+                <RouteMapComponent artwork={artwork} />
+              )}
+            </div>
+            
+            <div className="mt-4 pt-4 border-t border-gray-200 text-center">
+              <button
+                onClick={() => setShowLocationModal(false)}
+                className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+              >
+                {tSync('Fermer')}
               </button>
             </div>
           </div>
