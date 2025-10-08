@@ -21,7 +21,12 @@
       "origin": "Mali",
       "material": "Bois, fibres végétales",
       "dimensions": "65 x 35 x 15 cm",
-      "qrCode": "MCN001"
+      "qrCode": "MCN001",
+      "location": {
+        "latitude": 14.67862,
+        "longitude": -17.436026,
+        "address": "Autoroute prolongée x Plage de la Gare, Dakar, Sénégal"
+      }
     },
     {
       "id": "MCN002",
@@ -45,7 +50,12 @@
       "origin": "Nigeria",
       "material": "Terre cuite",
       "dimensions": "38 x 20 x 18 cm",
-      "qrCode": "MCN002"
+      "qrCode": "MCN002",
+      "location": {
+        "latitude": 14.67862,
+        "longitude": -17.436026,
+        "address": "Autoroute prolongée x Plage de la Gare, Dakar, Sénégal"
+      }
     },
     {
       "id": "MCN003",
@@ -69,7 +79,12 @@
       "origin": "Cameroun",
       "material": "Perles, tissu, cuir",
       "dimensions": "45 x 40 cm",
-      "qrCode": "MCN003"
+      "qrCode": "MCN003",
+      "location": {
+        "latitude": 14.67862,
+        "longitude": -17.436026,
+        "address": "Autoroute prolongée x Plage de la Gare, Dakar, Sénégal"
+      }
     },
     {
       "id": "MCN004",
@@ -93,6 +108,11 @@
       "origin": "Ghana",
       "material": "Coton, soie",
       "dimensions": "180 x 120 cm",
-      "qrCode": "MCN004"
+      "qrCode": "MCN004",
+      "location": {
+        "latitude": 14.67862,
+        "longitude": -17.436026,
+        "address": "Autoroute prolongée x Plage de la Gare, Dakar, Sénégal"
+      }
     }
   ]

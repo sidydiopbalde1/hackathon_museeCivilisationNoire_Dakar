@@ -44,8 +44,19 @@ export async function POST(request) {
     const body = await request.json();
     
     // Générer un ID unique
-    const artworkCount = await Artwork.countDocuments();
-    const id = `MCN${String(artworkCount + 1).padStart(3, '0')}`;
+    let id;
+    let isUnique = false;
+    let counter = await Artwork.countDocuments() + 1;
+    
+    while (!isUnique) {
+      id = `MCN${String(counter).padStart(3, '0')}`;
+      const existingArtwork = await Artwork.findOne({ id });
+      if (!existingArtwork) {
+        isUnique = true;
+      } else {
+        counter++;
+      }
+    }
     
     const artworkData = {
       id,

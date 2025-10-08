@@ -8,9 +8,9 @@ import HeroCarousel from '@/components/HeroCarousel';
 import EventsCarousel from '@/components/EventsCarousel';
 import WeeklyStory from '@/components/WeeklyStory';
 import HistoryOfTheWeek from '@/components/HistoryOfTheWeek';
+import StoriesCarousel from '@/components/StoriesCarousel';
 import HomePageSkeleton from '@/components/skeletons/HomePageSkeleton';
 import { useTranslation } from '@/contexts/TranslationContext';
-import StoriesCarousel from '@/components/StoriesCarousel';
 
 export default function HomePage() {
   const [artworks, setArtworks] = useState([]);
@@ -26,7 +26,7 @@ export default function HomePage() {
     try {
       setLoading(true);
       const response = await fetch('/api/artworks');
-      
+
       if (!response.ok) {
         throw new Error('Erreur lors du chargement des œuvres');
       }
@@ -75,20 +75,27 @@ export default function HomePage() {
           <HeroCarousel />
         </div>
 
-        {/* Colonne de droite : Story de la semaine + Histoire de la semaine (3 colonnes) */}
         <div className="lg:col-span-3 flex flex-col gap-4">
           {/* Story de la Semaine */}
           <div>
             <h2 className="text-lg font-bold text-amber-900 mb-4 px-1">
               {tSync('Stories de la semaine')}
             </h2>
+
           <StoriesCarousel />
           </div>
 
           {/* Histoire de la Semaine */}
             <WeeklyStory />
+
+            {/* <div className="flex flex-col gap-2 overflow-y-auto h-[400px]">
+              <StoriesCarousel />
+              <WeeklyStory />
+            </div> */}
+          </div>
+
         </div>
-      </div>
+  
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Featured Artworks */}

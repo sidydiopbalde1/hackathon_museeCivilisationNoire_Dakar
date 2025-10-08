@@ -30,6 +30,11 @@ const ArtworkSchema = new mongoose.Schema({
     type: String,
     unique: true,
   },
+  location: {
+    latitude: { type: Number, required: false },
+    longitude: { type: Number, required: false },
+    address: { type: String, required: false },
+  },
   viewCount: {
     type: Number,
     default: 0,

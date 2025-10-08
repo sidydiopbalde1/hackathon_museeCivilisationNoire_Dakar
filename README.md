@@ -297,3 +297,6 @@ MIT License - Hackathon Dakar Slush'D 2025
 **Développé pour le Hackathon MCN - Dakar Slush'D 2025**
 
 🇸🇳 Made with ❤️ in Senegal
+
+
+npm install --legacy-peer-deps

@@ -12,6 +12,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'inspectionfast-rsc.s3.us-east-1.amazonaws.com',
+      },
     ],
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',

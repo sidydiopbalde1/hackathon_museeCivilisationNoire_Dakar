@@ -12,19 +12,19 @@ export default function HeroCarousel() {
   const slides = [
     {
       id: 1,
-      image: 'https://images.unsplash.com/photo-1566305977571-5666677c6e98?w=1200&h=600&fit=crop',
+      image: 'https://inspectionfast-rsc.s3.us-east-1.amazonaws.com/documents/8e67138cea602498.jpg',
       title: 'Bienvenue au Musée des Civilisations Noires',
       subtitle: 'Découvrez l\'héritage africain dans toute sa splendeur'
     },
     {
       id: 2,
-      image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=1200&h=600&fit=crop',
+      image: 'https://inspectionfast-rsc.s3.us-east-1.amazonaws.com/documents/a2ef9306913a8e4d.jpg',
       title: 'Explorez le patrimoine africain à travers le digital',
       subtitle: 'Une expérience immersive et interactive'
     },
     {
       id: 3,
-      image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=1200&h=600&fit=crop',
+      image: 'https://inspectionfast-rsc.s3.us-east-1.amazonaws.com/documents/3a41d030db9266fb.jpg',
       title: 'Voir toutes les collections',
       subtitle: 'Des milliers d\'œuvres à découvrir'
     }
